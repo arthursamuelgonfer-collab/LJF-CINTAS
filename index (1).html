@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLF Cintas — Amarração e Elevação de Cargas</title>
+  <link rel="icon" type="image/jpeg" href="jlf.jpeg" />
+  <link rel="apple-touch-icon" href="jlf.jpeg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── RESET & BASE ─────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    :root {
+      --blue-dark:    #0D1B2E;
+      --blue-mid:     #1A3558;
+      --blue:         #1E4D8C;
+      --blue-light:   #2E6FC4;
+      --blue-pale:    #EAF1FB;
+      --orange:       #E8750A;
+      --orange-dark:  #B55A04;
+      --orange-light: #FFF3E6;
+      --gray-50:      #F8F9FA;
+      --gray-100:     #F1F3F5;
+      --gray-200:     #E2E6EA;
+      --gray-400:     #9AA5B1;
+      --gray-600:     #4A5568;
+      --gray-800:     #1F2D3D;
+      --white:        #FFFFFF;
+      --border:       1px solid var(--gray-200);
+      --radius:       6px;
+      --max-w:        1160px;
+      --font-head:    'Oswald', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --shadow-sm:    0 1px 3px rgba(0,0,0,0.08);
+      --shadow-md:    0 4px 12px rgba(0,0,0,0.10);
+    }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--gray-800);
+      background: var(--white);
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img { display: block; max-width: 100%; }
+    a   { text-decoration: none; color: inherit; }
+    ul  { list-style: none; }
+
+    .container {
+      width: 100%;
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* ─── TOPBAR ─────────────────────────── */
+    .topbar {
+      background: var(--blue-dark);
+      color: rgba(255,255,255,0.75);
+      font-size: 0.78rem;
+      padding: 8px 0;
+    }
+    .topbar .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .topbar a { color: rgba(255,255,255,0.75); transition: color 0.15s; }
+    .topbar a:hover { color: #fff; }
+    .topbar-left { display: flex; gap: 20px; align-items: center; }
+    .topbar-right { display: flex; gap: 20px; align-items: center; }
+    .topbar-icon { display: inline-flex; align-items: center; gap: 5px; }
+
+    /* ─── NAVBAR ─────────────────────────── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 200;
+      background: var(--white);
+      border-bottom: var(--border);
+      box-shadow: var(--shadow-sm);
+    }
+    .navbar .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 72px;
+      gap: 24px;
+    }
+
+    .nav-logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0;
+      flex-shrink: 0;
+    }
+    .nav-logo-img {
+      height: 56px;
+      width: auto;
+      object-fit: contain;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 28px;
+    }
+    .nav-links a {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color 0.15s;
+      white-space: nowrap;
+    }
+    .nav-links a:hover { color: var(--blue); }
+
+    .nav-cta {
+      background: var(--orange) !important;
+      color: var(--white) !important;
+      border-radius: var(--radius);
+      padding: 9px 20px !important;
+      font-weight: 700 !important;
+      letter-spacing: 0.04em !important;
+      transition: background 0.18s, transform 0.12s !important;
+    }
+    .nav-cta:hover {
+      background: var(--orange-dark) !important;
+      transform: translateY(-1px);
+    }
+
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 24px;
+      height: 2px;
+      background: var(--gray-600);
+      border-radius: 2px;
+      transition: all 0.2s;
+    }
+    .mobile-menu {
+      display: none;
+      flex-direction: column;
+      background: var(--white);
+      border-top: var(--border);
+      padding: 16px 24px 20px;
+      gap: 14px;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--gray-600);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .mobile-menu .nav-cta { text-align: center; padding: 10px 20px !important; }
+
+    /* ─── HERO ───────────────────────────── */
+    .hero {
+      background: var(--blue-dark);
+      padding: 72px 0 64px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-bg-pattern {
+      position: absolute;
+      inset: 0;
+      background-image:
+        repeating-linear-gradient(
+          90deg,
+          rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px,
+          transparent 1px, transparent 60px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px,
+          transparent 1px, transparent 60px
+        );
+      pointer-events: none;
+    }
+    .hero-blue-glow {
+      position: absolute;
+      right: -100px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(ellipse, rgba(30,77,140,0.5) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: center;
+    }
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(232,117,10,0.15);
+      border: 1px solid rgba(232,117,10,0.4);
+      color: #F5A050;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 5px 12px;
+      border-radius: 3px;
+      margin-bottom: 20px;
+    }
+    .hero-tag::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background: var(--orange);
+      border-radius: 50%;
+    }
+    .hero h1 {
+      font-family: var(--font-head);
+      font-size: clamp(1.9rem, 4vw, 3rem);
+      font-weight: 700;
+      color: #fff;
+      line-height: 1.15;
+      margin-bottom: 18px;
+      letter-spacing: 0.01em;
+    }
+    .hero h1 strong {
+      color: var(--orange);
+      font-weight: 700;
+    }
+    .hero-desc {
+      color: rgba(255,255,255,0.7);
+      font-size: 0.95rem;
+      max-width: 460px;
+      margin-bottom: 32px;
+      line-height: 1.75;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      align-items: center;
+    }
+    .btn-orange {
+      background: var(--orange);
+      color: var(--white);
+      border-radius: var(--radius);
+      padding: 12px 28px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      letter-spacing: 0.04em;
+      transition: background 0.18s, transform 0.12s;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .btn-orange:hover { background: var(--orange-dark); transform: translateY(-1px); }
+    .btn-outline-white {
+      border: 1.5px solid rgba(255,255,255,0.35);
+      color: rgba(255,255,255,0.9);
+      border-radius: var(--radius);
+      padding: 11px 24px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      transition: border-color 0.18s, background 0.18s;
+      display: inline-block;
+    }
+    .btn-outline-white:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin-top: 40px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+    .hero-stat {
+      padding: 16px 18px;
+      border-right: 1px solid rgba(255,255,255,0.12);
+    }
+    .hero-stat:last-child { border-right: none; }
+    .hero-stat-num {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--orange);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .hero-stat-label {
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.3;
+    }
+
+    /* hero imagens */
+    .hero-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 200px 160px;
+      gap: 8px;
+    }
+    .hero-img {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--blue-mid);
+    }
+    .hero-img.span2 { grid-column: span 2; }
+    .hero-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0.85;
+    }
+    .img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      color: rgba(255,255,255,0.3);
+      font-size: 0.72rem;
+      text-align: center;
+      padding: 12px;
+      background: var(--blue-mid);
+    }
+    .img-placeholder svg { opacity: 0.3; }
+
+    /* ─── SECTION HELPERS ────────────────── */
+    .section-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-label::before {
+      content: '';
+      width: 18px;
+      height: 2px;
+      background: var(--orange);
+      flex-shrink: 0;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
+      font-weight: 700;
+      color: var(--blue-dark);
+      line-height: 1.15;
+      margin-bottom: 10px;
+      letter-spacing: 0.01em;
+    }
+    .section-desc {
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      max-width: 520px;
+      line-height: 1.75;
+    }
+    .section-header { margin-bottom: 40px; }
+
+    /* ─── PRODUTOS ──────────────────────── */
+    #produtos {
+      padding: 80px 0;
+      background: var(--white);
+    }
+    .produtos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .produto-card {
+      border: var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--white);
+      box-shadow: var(--shadow-sm);
+    }
+    .produto-img {
+      width: 100%;
+      height: 190px;
+      overflow: hidden;
+      background: var(--gray-100);
+      position: relative;
+    }
+    .produto-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .produto-card:hover .produto-img img { transform: scale(1.04); }
+    .produto-img-placeholder {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--gray-400);
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 16px;
+    }
+    .produto-img-placeholder svg { opacity: 0.3; }
+    .produto-body {
+      padding: 20px 20px 22px;
+    }
+    .produto-nome {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--blue-dark);
+      margin-bottom: 6px;
+      letter-spacing: 0.01em;
+    }
+    .produto-desc {
+      font-size: 0.83rem;
+      color: var(--gray-400);
+      line-height: 1.65;
+      margin-bottom: 14px;
+    }
+    .produto-badge {
+      display: inline-block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 3px;
+    }
+    .badge-orange {
+      background: var(--orange-light);
+      color: var(--orange-dark);
+      border: 1px solid rgba(232,117,10,0.25);
+    }
+    .badge-blue {
+      background: var(--blue-pale);
+      color: var(--blue);
+      border: 1px solid rgba(30,77,140,0.2);
+    }
+
+    /* ─── SOBRE / DIFERENCIAIS ─────────── */
+    #diferenciais {
+      padding: 80px 0;
+      background: var(--gray-50);
+      border-top: var(--border);
+      border-bottom: var(--border);
+    }
+    .sobre-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+      align-items: start;
+    }
+    .sobre-img-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 180px 140px;
+      gap: 8px;
+    }
+    .sobre-img {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--gray-200);
+    }
+    .sobre-img.span2 { grid-column: span 2; }
+    .sobre-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .sobre-img-ph {
+      width: 100%; height: 100%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--gray-400); font-size: 0.75rem; text-align: center; padding: 12px;
+      flex-direction: column; gap: 6px;
+    }
+    .sobre-img-ph svg { opacity: 0.25; }
+    .diferenciais-list {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      margin-top: 32px;
+    }
+    .diferencial-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .diferencial-icon {
+      width: 40px;
+      height: 40px;
+      flex-shrink: 0;
+      border-radius: 8px;
+      background: var(--blue-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .diferencial-icon svg { color: var(--blue); }
+    .diferencial-titulo {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--gray-800);
+      margin-bottom: 3px;
+    }
+    .diferencial-texto {
+      font-size: 0.83rem;
+      color: var(--gray-400);
+      line-height: 1.65;
+    }
+
+    /* ─── GALERIA ────────────────────────── */
+    #galeria {
+      padding: 80px 0;
+      background: var(--white);
+    }
+    .galeria-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 220px 180px;
+      gap: 8px;
+    }
+    .galeria-item {
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: var(--gray-100);
+      position: relative;
+    }
+    .galeria-item.destaque {
+      grid-column: span 2;
+      grid-row: span 2;
+    }
+    .galeria-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s;
+    }
+    .galeria-item:hover img { transform: scale(1.03); }
+    .galeria-ph {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      color: var(--gray-400);
+      font-size: 0.75rem;
+      text-align: center;
+      padding: 12px;
+      background: var(--gray-100);
+    }
+    .galeria-ph svg { opacity: 0.25; }
+    .galeria-caption {
+      margin-top: 14px;
+      font-size: 0.78rem;
+      color: var(--gray-400);
+    }
+
+    /* ─── NORMAS ─────────────────────────── */
+    #normas {
+      padding: 80px 0;
+      background: var(--blue-dark);
+    }
+    #normas .section-label { color: rgba(255,255,255,0.55); }
+    #normas .section-label::before { background: rgba(255,255,255,0.3); }
+    #normas .section-title { color: #fff; }
+    #normas .section-desc { color: rgba(255,255,255,0.6); }
+    .normas-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-top: 40px;
+    }
+    .norma-card {
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: var(--radius);
+      padding: 22px 20px;
+    }
+    .norma-code {
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--orange);
+      margin-bottom: 8px;
+      letter-spacing: 0.04em;
+    }
+    .norma-titulo {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: #fff;
+      margin-bottom: 6px;
+    }
+    .norma-texto {
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+    }
+
+    /* ─── DEPOIMENTOS ────────────────────── */
+    #depoimentos {
+      padding: 80px 0;
+      background: var(--gray-50);
+      border-top: var(--border);
+    }
+    .depoimentos-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+    .depo-card {
+      background: var(--white);
+      border: var(--border);
+      border-radius: var(--radius);
+      padding: 26px;
+      box-shadow: var(--shadow-sm);
+    }
+    .depo-stars {
+      display: flex;
+      gap: 2px;
+      margin-bottom: 14px;
+    }
+    .star { color: var(--orange); font-size: 0.85rem; }
+    .depo-texto {
+      font-size: 0.87rem;
+      color: var(--gray-600);
+      line-height: 1.7;
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+    .depo-autor {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding-top: 16px;
+      border-top: var(--border);
+    }
+    .depo-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: 50%;
+      background: var(--blue-pale);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--blue);
+      flex-shrink: 0;
+    }
+    .depo-nome {
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--gray-800);
+    }
+    .depo-cargo {
+      font-size: 0.75rem;
+      color: var(--gray-400);
+    }
+
+    /* ─── LOCALIZAÇÃO ────────────────────── */
+    #localizacao {
+      padding: 80px 0;
+      background: var(--white);
+      border-top: var(--border);
+    }
+    .loc-layout {
+      display: grid;
+      grid-template-columns: 340px 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .loc-info {}
+    .loc-bloco {
+      margin-bottom: 24px;
+      padding-bottom: 24px;
+      border-bottom: var(--border);
+    }
+    .loc-bloco:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+    .loc-label {
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 6px;
+    }
+    .loc-text {
+      font-size: 0.88rem;
+      color: var(--gray-600);
+      line-height: 1.65;
+    }
+    .loc-text strong { color: var(--gray-800); font-weight: 600; }
+    .loc-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--blue);
+      font-weight: 600;
+      font-size: 0.83rem;
+      margin-top: 10px;
+      transition: color 0.15s;
+    }
+    .loc-link:hover { color: var(--blue-dark); }
+    .horario-grid {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 4px 16px;
+      font-size: 0.85rem;
+    }
+    .horario-dia { color: var(--gray-400); }
+    .horario-hora { color: var(--gray-800); font-weight: 600; }
+    .btn-como-chegar {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--blue);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 10px 20px;
+      font-weight: 600;
+      font-size: 0.83rem;
+      margin-top: 14px;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-como-chegar:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .mapa-wrapper {
+      border-radius: var(--radius);
+      overflow: hidden;
+      border: var(--border);
+      height: 420px;
+      background: var(--gray-100);
+      box-shadow: var(--shadow-md);
+    }
+    .mapa-wrapper iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ─── CTA / CONTATO ──────────────────── */
+    #contato {
+      padding: 72px 0;
+      background: var(--blue-mid);
+    }
+    #contato .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .cta-text h2 {
+      font-family: var(--font-head);
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+      letter-spacing: 0.01em;
+    }
+    .cta-text p {
+      color: rgba(255,255,255,0.65);
+      font-size: 0.88rem;
+      max-width: 420px;
+      line-height: 1.7;
+    }
+    .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+    .btn-wpp {
+      background: #25D366;
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 12px 24px;
+      font-weight: 700;
+      font-size: 0.875rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-wpp:hover { background: #1AAE54; transform: translateY(-1px); }
+    .btn-tel {
+      background: rgba(255,255,255,0.12);
+      border: 1px solid rgba(255,255,255,0.25);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 12px 24px;
+      font-weight: 600;
+      font-size: 0.875rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background 0.18s, transform 0.12s;
+    }
+    .btn-tel:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
+
+    /* ─── FOOTER ─────────────────────────── */
+    footer {
+      background: var(--blue-dark);
+      padding: 40px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    footer .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .footer-logo img {
+      height: 44px;
+      width: auto;
+      opacity: 0.9;
+    }
+    .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: rgba(255,255,255,0.4);
+      font-size: 0.78rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      transition: color 0.15s;
+    }
+    .footer-links a:hover { color: rgba(255,255,255,0.85); }
+    .footer-copy {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.25);
+      text-align: right;
+    }
+
+    /* ─── RESPONSIVE ─────────────────────── */
+    @media (max-width: 960px) {
+      .hero .container { grid-template-columns: 1fr; gap: 40px; }
+      .hero-visual { display: none; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .produtos-grid { grid-template-columns: 1fr 1fr; }
+      .sobre-layout { grid-template-columns: 1fr; gap: 40px; }
+      .sobre-img-grid { order: -1; }
+      .normas-grid { grid-template-columns: 1fr 1fr; }
+      .depoimentos-grid { grid-template-columns: 1fr; }
+      .loc-layout { grid-template-columns: 1fr; }
+      .galeria-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 170px); }
+      .galeria-item.destaque { grid-column: span 2; grid-row: span 1; }
+      #contato .container { flex-direction: column; align-items: flex-start; }
+      .nav-links { display: none; }
+      .nav-hamburger { display: flex; }
+    }
+    @media (max-width: 560px) {
+      .produtos-grid { grid-template-columns: 1fr; }
+      .normas-grid { grid-template-columns: 1fr; }
+      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      footer .container { flex-direction: column; align-items: flex-start; }
+      .footer-copy { text-align: left; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="container">
+    <div class="topbar-left">
+      <span class="topbar-icon">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+        <a href="tel:41996817294">(41) 99681-7294</a>
+      </span>
+      <span class="topbar-icon">
+        <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Rua Ayrton Senna da Silva, 3223 – MD01 · Paranaguá, PR
+      </span>
+    </div>
+    <div class="topbar-right">
+      <a href="mailto:contato@jlfcintas.com.br">contato@jlfcintas.com.br</a>
+    </div>
+  </div>
+</div>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="container">
+    <a href="#" class="nav-logo-wrap">
+      <!-- Logo JLF: coloque o arquivo jlf.jpeg na mesma pasta do index.html -->
+      <img src="jlf.jpeg" alt="JLF Cintas" class="nav-logo-img" />
+    </a>
+    <ul class="nav-links">
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#diferenciais">Sobre</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#normas">Normas</a></li>
+      <li><a href="#localizacao">Localização</a></li>
+      <li><a href="#contato" class="nav-cta">Solicitar orçamento</a></li>
+    </ul>
+    <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#produtos" onclick="closeMenu()">Produtos</a>
+    <a href="#diferenciais" onclick="closeMenu()">Sobre</a>
+    <a href="#galeria" onclick="closeMenu()">Galeria</a>
+    <a href="#normas" onclick="closeMenu()">Normas</a>
+    <a href="#localizacao" onclick="closeMenu()">Localização</a>
+    <a href="#contato" class="nav-cta" onclick="closeMenu()">Solicitar orçamento</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-blue-glow"></div>
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-tag">Amarração · Elevação · Movimentação de Cargas</div>
+      <h1>Equipamentos que<br><strong>não deixam a carga na mão</strong></h1>
+      <p class="hero-desc">A JLF Cintas fornece cintas de amarração, cabos de elevação, correntes e acessórios para transporte rodoviário e movimentação industrial. Produto certificado, entrega rápida, suporte real.</p>
+      <div class="hero-actions">
+        <a href="#contato" class="btn-orange">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+          Solicitar orçamento
+        </a>
+        <a href="#produtos" class="btn-outline-white">Ver produtos</a>
+      </div>
+      <div class="hero-stats">
+        <div class="hero-stat">
+          <div class="hero-stat-num">12+</div>
+          <div class="hero-stat-label">Anos de mercado</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">5 mil</div>
+          <div class="hero-stat-label">Clientes atendidos</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">ABNT</div>
+          <div class="hero-stat-label">Produtos certificados</div>
+        </div>
+        <div class="hero-stat">
+          <div class="hero-stat-num">PR</div>
+          <div class="hero-stat-label">Entrega regional</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-img span2">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=75&fit=crop" alt="Cintas de amarração para transporte de carga" />
+      </div>
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Elevação industrial de carga" />
+      </div>
+      <div class="hero-img">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=75&fit=crop" alt="Movimentação logística de carga" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRODUTOS -->
+<section id="produtos">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Linha completa</p>
+      <h2 class="section-title">Produtos para amarração e elevação</h2>
+      <p class="section-desc">Do rodoviário ao industrial, temos os equipamentos certos para cada tipo de operação — com qualidade certificada e estoque pronto para envio.</p>
+    </div>
+
+    <div class="produtos-grid">
+
+      <div class="produto-card">
+        <div class="produto-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75&fit=crop" alt="Cinta de amarração com catraca" />
+        </div>
+        <div class="produto-body">
+          <p class="produto-nome">Cinta de Amarração com Catraca</p>
+          <p class="produto-desc">Fita de poliéster de alta tenacidade com catraca de aço. Resistência de 2,5 a 10 t. Indicada para transporte rodoviário de carga geral, madeira e equipamentos.</p>
+          <span class="produto-badge badge-orange">Mais vendida</span>
+        </div>
+      </div>
+
+      <div class="produto-card">
+        <div class="produto-img">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=75&fit=crop" alt="Cinta de elevação de cargas" />
+        </div>
+        <div class="produto-body">
+          <p class="produto-nome">Cinta de Elevação (Leg)</p>
+          <p class="produto-desc">Cintas planas e redondas para içamento. Fator de segurança 4:1 e 7:1. Conformidade com ABNT NBR 15637-1 e NBR 15637-2. Para 1 e 2 pernas.</p>
+          <span class="produto-badge badge-blue">ABNT NBR 15637</span>
+        </div>
+      </div>
+
+      <div class="produto-card">
+        <div class="produto-img">
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=75&fit=crop" alt="Corrente de amarração grau 70" />
+        </div>
+        <div class="produto-body">
+          <p class="produto-nome">Corrente de Amarração Grau 70/80</p>
+          <p class="produto-desc">Aço forjado galvanizado. Indicada para cargas pesadas, irregulares e maquinário agrícola e industrial. Capacidade até 20 t com certificação de lote.</p>
+          <span class="produto-badge badge-blue">Grau 70 · Grau 80</span>
+        </div>
+      </div>
+
+      <div class="produto-card">
+        <div class="produto-img">
+          <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=600&q=75&fit=crop" alt="Cabo de aço para elevação" />
+        </div>
+        <div class="produto-body">
+          <p class="produto-nome">Cabo de Aço</p>
+          <p class="produto-desc">Configurações 6x7, 6x19, 6x36 e inox. Para içamento, guincho e amarração industrial. Com e sem revestimento plástico. Vendido por metro ou em eslingas prontas.</p>
+          <span class="produto-badge badge-blue">Inox disponível</span>
+        </div>
+      </div>
+
+      <div class="produto-card">
+        <div class="produto-img">
+          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=75&fit=crop" alt="Ganchos e acessórios industriais" />
+        </div>
+        <div class="produto-body">
+          <p class="produto-nome">Ganchos e Acessórios Grau 8</p>
+          <p class="produto-desc">Ganchos clévis, olhal e giratório com e sem trava automática. Elos de ligação, anelões e encurtadores. Aço forjado, grau 8, com certificação individual.</p>
+          <span class="produto-badge badge-orange">Grau 8 certificado</span>
+        </div>
+      </div>
+
+      <div class="produto-card">
+        <div class="produto-img">
+          <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=75&fit=crop" alt="Protetor de quina e acessórios para cinta" />
+        </div>
+        <div class="produto-body">
+          <p class="produto-nome">Protetores e Kits Completos</p>
+          <p class="produto-desc">Protetores de quina em plástico e couro, flat hooks, ganchos J e kits montados por tipo de carga. Montamos o kit certo para cada operação — é só consultar.</p>
+          <span class="produto-badge badge-orange">Sob consulta</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- SOBRE / DIFERENCIAIS -->
+<section id="diferenciais">
+  <div class="container">
+    <div class="sobre-layout">
+
+      <div class="sobre-img-grid">
+        <div class="sobre-img span2">
+          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=75&fit=crop" alt="Loja JLF Cintas - estoque de produtos" />
+        </div>
+        <div class="sobre-img">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Equipe JLF Cintas atendendo cliente" />
+        </div>
+        <div class="sobre-img">
+          <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=75&fit=crop" alt="Produtos para movimentação de carga" />
+        </div>
+      </div>
+
+      <div>
+        <div class="section-header">
+          <p class="section-label">Por que a JLF</p>
+          <h2 class="section-title">Mais de uma década no setor de amarração e elevação</h2>
+          <p class="section-desc">A JLF Cintas nasceu em Paranaguá, coração do porto do Paraná, com foco em atender transportadores, operadores portuários e indústrias que não podem errar na hora de movimentar carga.</p>
+        </div>
+
+        <div class="diferenciais-list">
+          <div class="diferencial-item">
+            <div class="diferencial-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+            </div>
+            <div>
+              <p class="diferencial-titulo">Produto certificado conforme ABNT</p>
+              <p class="diferencial-texto">Toda a linha segue a NBR 15637. Você tem documentação em mãos na hora de apresentar para a fiscalização — sem risco de retenção de veículo ou embargo de carga.</p>
+            </div>
+          </div>
+          <div class="diferencial-item">
+            <div class="diferencial-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+            </div>
+            <div>
+              <p class="diferencial-titulo">Estoque disponível, saída no mesmo dia</p>
+              <p class="diferencial-texto">Pedidos confirmados até as 14h saem no mesmo dia. Trabalhamos com transportadoras regionais e nacionais, com rastreamento em todos os envios.</p>
+            </div>
+          </div>
+          <div class="diferencial-item">
+            <div class="diferencial-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <p class="diferencial-titulo">Atendimento técnico sem enrolação</p>
+              <p class="diferencial-texto">Nossa equipe indica o produto certo para cada tipo de carga. Não vendemos o que não serve — isso evita acidentes, multas e retrabalho na operação.</p>
+            </div>
+          </div>
+          <div class="diferencial-item">
+            <div class="diferencial-icon">
+              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <div>
+              <p class="diferencial-titulo">Preço de distribuidor para qualquer volume</p>
+              <p class="diferencial-texto">Compramos direto dos fabricantes. Condições especiais para frota, cooperativa e compras recorrentes. Faturamento mensal disponível para PJ com cadastro aprovado.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- GALERIA -->
+<section id="galeria">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Galeria</p>
+      <h2 class="section-title">Nossa loja e produtos</h2>
+      <p class="section-desc">Veja de perto os equipamentos que fornecemos e o espaço onde atendemos nossos clientes em Paranaguá.</p>
+    </div>
+
+    <div class="galeria-grid">
+
+      <!-- Foto destaque: substitua src pela sua foto real -->
+      <div class="galeria-item destaque">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&fit=crop" alt="Interior da loja JLF Cintas" />
+        <!-- Para usar sua foto: <img src="fotos/loja-principal.jpg" alt="Loja JLF Cintas"> -->
+      </div>
+
+      <div class="galeria-item">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Cintas de elevação em estoque" />
+      </div>
+
+      <div class="galeria-item">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=75&fit=crop" alt="Correntes e acessórios" />
+      </div>
+
+      <div class="galeria-item">
+        <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=500&q=75&fit=crop" alt="Cabos de aço e eslingas" />
+      </div>
+
+      <div class="galeria-item">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=500&q=75&fit=crop" alt="Estoque de produtos JLF" />
+      </div>
+
+    </div>
+
+    <p class="galeria-caption">
+      Para substituir pelas fotos reais da loja: salve as imagens na pasta <strong>fotos/</strong> e troque o atributo <code>src</code> de cada <code>&lt;img&gt;</code> acima.
+    </p>
+  </div>
+</section>
+
+<!-- NORMAS -->
+<section id="normas">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Conformidade legal</p>
+      <h2 class="section-title">Segurança e conformidade com a legislação</h2>
+      <p class="section-desc">A fiscalização nas estradas e nos ambientes industriais tem se intensificado. Usar equipamentos sem certificação pode resultar em multa, interdição ou, pior, em acidente.</p>
+    </div>
+    <div class="normas-grid">
+      <div class="norma-card">
+        <p class="norma-code">ABNT NBR 15637</p>
+        <p class="norma-titulo">Cintas Têxteis de Amarração</p>
+        <p class="norma-texto">Define resistência mínima, ensaios e marcação obrigatória para cintas de poliéster usadas em transporte rodoviário de carga.</p>
+      </div>
+      <div class="norma-card">
+        <p class="norma-code">CTB Art. 230</p>
+        <p class="norma-titulo">Código de Trânsito</p>
+        <p class="norma-texto">Exige amarração adequada da carga. Infração grave com multa, retenção do veículo e responsabilização do motorista e do embarcador.</p>
+      </div>
+      <div class="norma-card">
+        <p class="norma-code">NR-11</p>
+        <p class="norma-titulo">Transporte e Movimentação</p>
+        <p class="norma-texto">Norma regulamentadora do MTE para operações de transporte, movimentação, armazenagem e manuseio de materiais em ambientes de trabalho.</p>
+      </div>
+      <div class="norma-card">
+        <p class="norma-code">EN 12195</p>
+        <p class="norma-titulo">Norma Europeia</p>
+        <p class="norma-texto">Padrão europeu aceito em operações de exportação. Nossos kits premium atendem simultaneamente à norma europeia e às normas brasileiras vigentes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section id="depoimentos">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Clientes</p>
+      <h2 class="section-title">Quem usa a JLF recomenda</h2>
+    </div>
+    <div class="depoimentos-grid">
+      <div class="depo-card">
+        <div class="depo-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="depo-texto">"Compro aqui há quatro anos para toda a minha frota. O produto é sempre dentro do padrão, nunca tive problema em fiscalização e o pessoal me orienta na montagem dos kits."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">RS</div>
+          <div>
+            <p class="depo-nome">Roberto Silva</p>
+            <p class="depo-cargo">Transportador autônomo — Curitiba, PR</p>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card">
+        <div class="depo-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="depo-texto">"Precisei de cintas grau 70 pra movimentação de máquinas agrícolas em urgência. Tinham em estoque, saíram no mesmo dia. Atendimento direto, sem enrolação."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">MC</div>
+          <div>
+            <p class="depo-nome">Marcos Cardoso</p>
+            <p class="depo-cargo">Proprietário de frota — Cascavel, PR</p>
+          </div>
+        </div>
+      </div>
+      <div class="depo-card">
+        <div class="depo-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="depo-texto">"Fechamos contrato de fornecimento mensal para a nossa cooperativa. O preço por volume ficou bem abaixo do que a gente pagava no mercado. Recomendo sem hesitar."</p>
+        <div class="depo-autor">
+          <div class="depo-avatar">JF</div>
+          <div>
+            <p class="depo-nome">José Ferreira</p>
+            <p class="depo-cargo">Gerente logístico — Londrina, PR</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCALIZAÇÃO -->
+<section id="localizacao">
+  <div class="container">
+    <div class="section-header">
+      <p class="section-label">Nossa localização</p>
+      <h2 class="section-title">Venha nos visitar em Paranaguá</h2>
+      <p class="section-desc">Atendemos presencialmente de segunda a sábado com estoque físico disponível para visualização e retirada no ato.</p>
+    </div>
+
+    <div class="loc-layout">
+      <div class="loc-info">
+
+        <div class="loc-bloco">
+          <p class="loc-label">Endereço</p>
+          <p class="loc-text">
+            <strong>Rua Ayrton Senna da Silva, 3223 – MD01</strong><br>
+            Paranaguá — PR<br>
+            CEP 83.200-000
+          </p>
+          <a class="btn-como-chegar" href="https://maps.google.com/?q=Rua+Ayrton+Senna+da+Silva,+3223,+Paranaguá,+PR" target="_blank" rel="noopener">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            Como chegar
+          </a>
+        </div>
+
+        <div class="loc-bloco">
+          <p class="loc-label">Horário de atendimento</p>
+          <div class="horario-grid">
+            <span class="horario-dia">Segunda a sexta</span>
+            <span class="horario-hora">08h às 18h</span>
+            <span class="horario-dia">Sábado</span>
+            <span class="horario-hora">08h às 12h</span>
+            <span class="horario-dia">Domingo</span>
+            <span class="horario-hora">Fechado</span>
+          </div>
+        </div>
+
+        <div class="loc-bloco">
+          <p class="loc-label">Fale com a gente</p>
+          <p class="loc-text">
+            <a href="tel:41996817294" style="color:var(--orange);font-weight:700;">(41) 99681-7294</a><br>
+            <a href="https://wa.me/5541996817294" target="_blank" style="color:var(--gray-600);">WhatsApp disponível</a><br>
+            <a href="mailto:contato@jlfcintas.com.br" style="color:var(--gray-600);">contato@jlfcintas.com.br</a>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- MAPA GOOGLE MAPS -->
+      <div class="mapa-wrapper">
+        <!--
+          COMO ATUALIZAR O MAPA:
+          1. Acesse https://maps.google.com
+          2. Pesquise: "Rua Ayrton Senna da Silva, 3223, Paranaguá PR"
+          3. Clique em "Compartilhar" → "Incorporar um mapa"
+          4. Copie o <iframe> gerado e substitua o de baixo
+        -->
+        <iframe
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.07!2d-48.52!3d-25.52!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94deb1c9b42f2b4d%3A0x92a7d8e4c3baf02!2sParanagu%C3%A1%2C%20PR!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="JLF Cintas — Rua Ayrton Senna da Silva 3223, Paranaguá PR">
+        </iframe>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA / CONTATO -->
+<section id="contato">
+  <div class="container">
+    <div class="cta-text">
+      <h2>Precisa de cintas ou equipamentos de elevação?</h2>
+      <p>Manda uma mensagem pelo WhatsApp ou liga agora. Passamos orçamento em minutos — sem formulário, sem fila, sem enrolação.</p>
+    </div>
+    <div class="cta-actions">
+      <a href="https://wa.me/5541996817294?text=Olá!%20Gostaria%20de%20um%20orçamento%20de%20cintas." class="btn-wpp" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        WhatsApp
+      </a>
+      <a href="tel:41996817294" class="btn-tel">
+        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+        (41) 99681-7294
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-logo">
+      <img src="jlf.jpeg" alt="JLF Cintas" />
+    </div>
+    <ul class="footer-links">
+      <li><a href="#produtos">Produtos</a></li>
+      <li><a href="#diferenciais">Sobre</a></li>
+      <li><a href="#galeria">Galeria</a></li>
+      <li><a href="#normas">Normas</a></li>
+      <li><a href="#localizacao">Localização</a></li>
+      <li><a href="#contato">Contato</a></li>
+    </ul>
+    <div class="footer-copy">
+      © 2025 JLF Cintas. Todos os direitos reservados.<br>
+      <span style="font-size:0.7rem; color:rgba(255,255,255,0.15);">Rua Ayrton Senna da Silva, 3223 · Paranaguá, PR</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+  document.addEventListener('click', function(e) {
+    var nav = document.querySelector('.navbar');
+    if (!nav.contains(e.target)) closeMenu();
+  });
+</script>
+
+</body>
+</html>
