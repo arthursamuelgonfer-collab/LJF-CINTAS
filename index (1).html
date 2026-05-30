@@ -11,884 +11,315 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <style>
-    /* ─── RESET & BASE ─────────────────────────────── */
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; font-size: 16px; }
+    html { scroll-behavior: smooth; }
 
     :root {
-      --blue-dark:    #0D1B2E;
-      --blue-mid:     #1A3558;
-      --blue:         #1E4D8C;
-      --blue-light:   #2E6FC4;
-      --blue-pale:    #EAF1FB;
-      --orange:       #E8750A;
-      --orange-dark:  #B55A04;
-      --orange-light: #FFF3E6;
-      --gray-50:      #F8F9FA;
-      --gray-100:     #F1F3F5;
-      --gray-200:     #E2E6EA;
-      --gray-400:     #9AA5B1;
-      --gray-600:     #4A5568;
-      --gray-800:     #1F2D3D;
-      --white:        #FFFFFF;
-      --border:       1px solid var(--gray-200);
-      --radius:       6px;
-      --max-w:        1160px;
-      --font-head:    'Oswald', sans-serif;
-      --font-body:    'Inter', sans-serif;
-      --shadow-sm:    0 1px 3px rgba(0,0,0,0.08);
-      --shadow-md:    0 4px 12px rgba(0,0,0,0.10);
+      --blue-dark:   #0D1B2E;
+      --blue-mid:    #1A3558;
+      --blue:        #1E4D8C;
+      --blue-light:  #2E6FC4;
+      --blue-pale:   #EAF1FB;
+      --orange:      #E8750A;
+      --orange-dark: #B55A04;
+      --orange-lt:   #FFF3E6;
+      --gray-50:     #F8F9FA;
+      --gray-100:    #F1F3F5;
+      --gray-200:    #E2E6EA;
+      --gray-400:    #9AA5B1;
+      --gray-600:    #4A5568;
+      --gray-800:    #1F2D3D;
+      --white:       #FFFFFF;
+      --border:      1px solid #E2E6EA;
+      --r:           8px;
+      --r-sm:        5px;
+      --maxw:        1160px;
+      --fh:          'Oswald', sans-serif;
+      --fb:          'Inter', sans-serif;
+      --sh1:         0 1px 4px rgba(0,0,0,.07);
+      --sh2:         0 4px 20px rgba(0,0,0,.11);
+      --sh3:         0 10px 40px rgba(0,0,0,.16);
     }
 
-    body {
-      font-family: var(--font-body);
-      color: var(--gray-800);
-      background: var(--white);
-      line-height: 1.65;
-      -webkit-font-smoothing: antialiased;
-    }
+    body { font-family: var(--fb); color: var(--gray-800); background: #fff; line-height: 1.65; -webkit-font-smoothing: antialiased; }
+    img  { display: block; max-width: 100%; }
+    a    { text-decoration: none; color: inherit; }
+    ul   { list-style: none; }
+    .container { width: 100%; max-width: var(--maxw); margin: 0 auto; padding: 0 24px; }
 
-    img { display: block; max-width: 100%; }
-    a   { text-decoration: none; color: inherit; }
-    ul  { list-style: none; }
-
-    .container {
-      width: 100%;
-      max-width: var(--max-w);
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    /* ─── TOPBAR ─────────────────────────── */
-    .topbar {
-      background: var(--blue-dark);
-      color: rgba(255,255,255,0.75);
-      font-size: 0.78rem;
-      padding: 8px 0;
-    }
-    .topbar .container {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-    .topbar a { color: rgba(255,255,255,0.75); transition: color 0.15s; }
+    /* ── TOPBAR ───────────────────────── */
+    .topbar { background: var(--blue-dark); color: rgba(255,255,255,.72); font-size: .77rem; padding: 7px 0; }
+    .topbar .container { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
+    .topbar a { color: rgba(255,255,255,.72); transition: color .15s; }
     .topbar a:hover { color: #fff; }
-    .topbar-left { display: flex; gap: 20px; align-items: center; }
-    .topbar-right { display: flex; gap: 20px; align-items: center; }
-    .topbar-icon { display: inline-flex; align-items: center; gap: 5px; }
+    .tb-left  { display: flex; gap: 20px; align-items: center; }
+    .tb-right { display: flex; gap: 20px; align-items: center; }
+    .tb-item  { display: inline-flex; align-items: center; gap: 5px; }
 
-    /* ─── NAVBAR ─────────────────────────── */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 200;
-      background: var(--white);
-      border-bottom: var(--border);
-      box-shadow: var(--shadow-sm);
-    }
-    .navbar .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 72px;
-      gap: 24px;
-    }
-
-    .nav-logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 0;
-      flex-shrink: 0;
-    }
-    .nav-logo-img {
-      height: 56px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 28px;
-    }
-    .nav-links a {
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      transition: color 0.15s;
-      white-space: nowrap;
-    }
+    /* ── NAVBAR ───────────────────────── */
+    .navbar { position: sticky; top: 0; z-index: 300; background: #fff; border-bottom: var(--border); box-shadow: var(--sh1); }
+    .navbar .container { display: flex; align-items: center; justify-content: space-between; height: 70px; gap: 20px; }
+    .nav-logo img { height: 54px; width: auto; object-fit: contain; }
+    .nav-links { display: flex; align-items: center; gap: 26px; }
+    .nav-links a { font-size: .8rem; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: .06em; transition: color .15s; white-space: nowrap; }
     .nav-links a:hover { color: var(--blue); }
+    .nav-cta { background: var(--orange) !important; color: #fff !important; border-radius: var(--r-sm); padding: 9px 18px !important; font-weight: 700 !important; transition: background .18s, transform .12s !important; }
+    .nav-cta:hover { background: var(--orange-dark) !important; transform: translateY(-1px); }
+    .nav-burger { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+    .nav-burger span { display: block; width: 24px; height: 2px; background: var(--gray-600); border-radius: 2px; }
+    .mob-menu { display: none; flex-direction: column; background: #fff; border-top: var(--border); padding: 16px 24px 20px; gap: 14px; }
+    .mob-menu.open { display: flex; }
+    .mob-menu a { font-size: .9rem; font-weight: 600; color: var(--gray-600); text-transform: uppercase; letter-spacing: .05em; }
+    .mob-menu .nav-cta { text-align: center; }
 
-    .nav-cta {
-      background: var(--orange) !important;
-      color: var(--white) !important;
-      border-radius: var(--radius);
-      padding: 9px 20px !important;
-      font-weight: 700 !important;
-      letter-spacing: 0.04em !important;
-      transition: background 0.18s, transform 0.12s !important;
-    }
-    .nav-cta:hover {
-      background: var(--orange-dark) !important;
-      transform: translateY(-1px);
-    }
-
-    .nav-hamburger {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
-    }
-    .nav-hamburger span {
-      display: block;
-      width: 24px;
-      height: 2px;
-      background: var(--gray-600);
-      border-radius: 2px;
-      transition: all 0.2s;
-    }
-    .mobile-menu {
-      display: none;
-      flex-direction: column;
-      background: var(--white);
-      border-top: var(--border);
-      padding: 16px 24px 20px;
-      gap: 14px;
-    }
-    .mobile-menu.open { display: flex; }
-    .mobile-menu a {
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: var(--gray-600);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-    .mobile-menu .nav-cta { text-align: center; padding: 10px 20px !important; }
-
-    /* ─── HERO ───────────────────────────── */
-    .hero {
-      background: var(--blue-dark);
-      padding: 72px 0 64px;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero-bg-pattern {
-      position: absolute;
-      inset: 0;
+    /* ── HERO ─────────────────────────── */
+    .hero { background: var(--blue-dark); padding: 64px 0 0; position: relative; overflow: hidden; }
+    .hero::before {
+      content: '';
+      position: absolute; inset: 0;
       background-image:
-        repeating-linear-gradient(
-          90deg,
-          rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px,
-          transparent 1px, transparent 60px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px,
-          transparent 1px, transparent 60px
-        );
+        repeating-linear-gradient(90deg, rgba(255,255,255,.025) 0, rgba(255,255,255,.025) 1px, transparent 1px, transparent 64px),
+        repeating-linear-gradient(0deg,  rgba(255,255,255,.025) 0, rgba(255,255,255,.025) 1px, transparent 1px, transparent 64px);
       pointer-events: none;
     }
-    .hero-blue-glow {
-      position: absolute;
-      right: -100px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 600px;
-      height: 600px;
-      background: radial-gradient(ellipse, rgba(30,77,140,0.5) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero .container {
-      position: relative;
-      z-index: 1;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: center;
-    }
-    .hero-tag {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(232,117,10,0.15);
-      border: 1px solid rgba(232,117,10,0.4);
-      color: #F5A050;
-      font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      padding: 5px 12px;
-      border-radius: 3px;
-      margin-bottom: 20px;
-    }
-    .hero-tag::before {
-      content: '';
-      width: 6px;
-      height: 6px;
-      background: var(--orange);
-      border-radius: 50%;
-    }
-    .hero h1 {
-      font-family: var(--font-head);
-      font-size: clamp(1.9rem, 4vw, 3rem);
-      font-weight: 700;
-      color: #fff;
-      line-height: 1.15;
-      margin-bottom: 18px;
-      letter-spacing: 0.01em;
-    }
-    .hero h1 strong {
-      color: var(--orange);
-      font-weight: 700;
-    }
-    .hero-desc {
-      color: rgba(255,255,255,0.7);
-      font-size: 0.95rem;
-      max-width: 460px;
-      margin-bottom: 32px;
-      line-height: 1.75;
-    }
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      align-items: center;
-    }
-    .btn-orange {
-      background: var(--orange);
-      color: var(--white);
-      border-radius: var(--radius);
-      padding: 12px 28px;
-      font-weight: 700;
-      font-size: 0.875rem;
-      letter-spacing: 0.04em;
-      transition: background 0.18s, transform 0.12s;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-    }
+    .hero-bar { position: absolute; bottom: 0; left: 0; right: 0; height: 4px; background: var(--orange); }
+    .hero .container { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; padding-bottom: 64px; }
+    .hero-tag { display: inline-flex; align-items: center; gap: 8px; background: rgba(232,117,10,.15); border: 1px solid rgba(232,117,10,.4); color: #F5A050; font-size: .7rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; padding: 5px 12px; border-radius: 3px; margin-bottom: 20px; }
+    .hero-tag::before { content:''; width:6px; height:6px; background: var(--orange); border-radius: 50%; }
+    .hero h1 { font-family: var(--fh); font-size: clamp(2rem,4vw,3.1rem); font-weight: 700; color: #fff; line-height: 1.1; margin-bottom: 18px; }
+    .hero h1 strong { color: var(--orange); }
+    .hero-desc { color: rgba(255,255,255,.7); font-size: .95rem; max-width: 450px; margin-bottom: 30px; line-height: 1.75; }
+    .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
+    .btn-orange { background: var(--orange); color: #fff; border-radius: var(--r-sm); padding: 12px 26px; font-weight: 700; font-size: .875rem; transition: background .18s, transform .12s; display: inline-flex; align-items: center; gap: 8px; }
     .btn-orange:hover { background: var(--orange-dark); transform: translateY(-1px); }
-    .btn-outline-white {
-      border: 1.5px solid rgba(255,255,255,0.35);
-      color: rgba(255,255,255,0.9);
-      border-radius: var(--radius);
-      padding: 11px 24px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      transition: border-color 0.18s, background 0.18s;
-      display: inline-block;
-    }
-    .btn-outline-white:hover { border-color: #fff; background: rgba(255,255,255,0.08); }
+    .btn-ghost-w { border: 1.5px solid rgba(255,255,255,.35); color: rgba(255,255,255,.9); border-radius: var(--r-sm); padding: 11px 22px; font-weight: 600; font-size: .875rem; transition: border-color .18s, background .18s; display: inline-block; }
+    .btn-ghost-w:hover { border-color: #fff; background: rgba(255,255,255,.08); }
+    .hero-kpis { display: grid; grid-template-columns: repeat(4,1fr); margin-top: 36px; border: 1px solid rgba(255,255,255,.12); border-radius: var(--r-sm); overflow: hidden; }
+    .hero-kpi { padding: 15px 16px; border-right: 1px solid rgba(255,255,255,.12); }
+    .hero-kpi:last-child { border-right: none; }
+    .hero-kpi-n { font-family: var(--fh); font-size: 1.45rem; font-weight: 700; color: var(--orange); line-height: 1; margin-bottom: 3px; }
+    .hero-kpi-l { font-size: .7rem; color: rgba(255,255,255,.52); line-height: 1.3; }
 
-    .hero-stats {
+    /* hero foto grid */
+    .hero-imgs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 210px 148px; gap: 8px; }
+    .hi { border-radius: var(--r-sm); overflow: hidden; background: var(--blue-mid); }
+    .hi.s2 { grid-column: span 2; }
+    .hi img { width: 100%; height: 100%; object-fit: cover; opacity: .85; transition: opacity .3s; }
+    .hi:hover img { opacity: 1; }
+
+    /* ── VITRINE DE CATEGORIAS ────────── */
+    .vitrine { background: #fff; border-bottom: var(--border); }
+    .vitrine .container { display: grid; grid-template-columns: repeat(5,1fr); }
+    .vit-item { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 26px 12px 22px; border-right: var(--border); text-align: center; cursor: pointer; position: relative; overflow: hidden; }
+    .vit-item:last-child { border-right: none; }
+    .vit-item::after { content:''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--orange); transform: scaleX(0); transform-origin: left; transition: transform .3s; }
+    .vit-item:hover::after { transform: scaleX(1); }
+    .vit-thumb { width: 68px; height: 68px; border-radius: 50%; overflow: hidden; border: 2.5px solid var(--gray-200); background: var(--gray-100); flex-shrink: 0; transition: border-color .25s; }
+    .vit-item:hover .vit-thumb { border-color: var(--orange); }
+    .vit-thumb img { width: 100%; height: 100%; object-fit: cover; }
+    .vit-label { font-family: var(--fh); font-size: .82rem; font-weight: 600; color: var(--blue-dark); line-height: 1.2; transition: color .2s; }
+    .vit-item:hover .vit-label { color: var(--orange); }
+
+    /* ── SEÇÃO HELPERS ────────────────── */
+    .slabel { font-size: .68rem; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--orange); margin-bottom: 7px; display: flex; align-items: center; gap: 8px; }
+    .slabel::before { content:''; width: 16px; height: 2px; background: var(--orange); flex-shrink: 0; }
+    .stitle { font-family: var(--fh); font-size: clamp(1.35rem,2.8vw,1.85rem); font-weight: 700; color: var(--blue-dark); line-height: 1.12; margin-bottom: 9px; }
+    .sdesc  { color: var(--gray-400); font-size: .88rem; max-width: 520px; line-height: 1.75; }
+    .sh { margin-bottom: 40px; }
+    .sh-row { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
+    .btn-outline-b { border: 1.5px solid var(--blue); color: var(--blue); border-radius: var(--r-sm); padding: 8px 18px; font-weight: 600; font-size: .8rem; transition: background .18s, color .18s; display: inline-block; white-space: nowrap; }
+    .btn-outline-b:hover { background: var(--blue); color: #fff; }
+
+    /* ── MAIS VENDIDOS ────────────────── */
+    #mais-vendidos { padding: 80px 0; background: var(--gray-50); border-top: var(--border); }
+
+    .mv-hero-card {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: 1.15fr 1fr;
       gap: 0;
-      margin-top: 40px;
-      border: 1px solid rgba(255,255,255,0.12);
-      border-radius: var(--radius);
+      border-radius: var(--r);
       overflow: hidden;
-    }
-    .hero-stat {
-      padding: 16px 18px;
-      border-right: 1px solid rgba(255,255,255,0.12);
-    }
-    .hero-stat:last-child { border-right: none; }
-    .hero-stat-num {
-      font-family: var(--font-head);
-      font-size: 1.5rem;
-      font-weight: 700;
-      color: var(--orange);
-      line-height: 1;
-      margin-bottom: 4px;
-    }
-    .hero-stat-label {
-      font-size: 0.72rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.3;
-    }
-
-    /* hero imagens */
-    .hero-visual {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 200px 160px;
-      gap: 8px;
-    }
-    .hero-img {
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--blue-mid);
-    }
-    .hero-img.span2 { grid-column: span 2; }
-    .hero-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      opacity: 0.85;
-    }
-    .img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      color: rgba(255,255,255,0.3);
-      font-size: 0.72rem;
-      text-align: center;
-      padding: 12px;
-      background: var(--blue-mid);
-    }
-    .img-placeholder svg { opacity: 0.3; }
-
-    /* ─── SECTION HELPERS ────────────────── */
-    .section-label {
-      font-size: 0.7rem;
-      font-weight: 700;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .section-label::before {
-      content: '';
-      width: 18px;
-      height: 2px;
-      background: var(--orange);
-      flex-shrink: 0;
-    }
-    .section-title {
-      font-family: var(--font-head);
-      font-size: clamp(1.4rem, 2.8vw, 1.9rem);
-      font-weight: 700;
-      color: var(--blue-dark);
-      line-height: 1.15;
-      margin-bottom: 10px;
-      letter-spacing: 0.01em;
-    }
-    .section-desc {
-      color: var(--gray-400);
-      font-size: 0.9rem;
-      max-width: 520px;
-      line-height: 1.75;
-    }
-    .section-header { margin-bottom: 40px; }
-
-    /* ─── PRODUTOS ──────────────────────── */
-    #produtos {
-      padding: 80px 0;
-      background: var(--white);
-    }
-    .produtos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .produto-card {
-      border: var(--border);
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--white);
-      box-shadow: var(--shadow-sm);
-    }
-    .produto-img {
-      width: 100%;
-      height: 190px;
-      overflow: hidden;
-      background: var(--gray-100);
-      position: relative;
-    }
-    .produto-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s;
-    }
-    .produto-card:hover .produto-img img { transform: scale(1.04); }
-    .produto-img-placeholder {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--gray-400);
-      font-size: 0.75rem;
-      text-align: center;
-      padding: 16px;
-    }
-    .produto-img-placeholder svg { opacity: 0.3; }
-    .produto-body {
-      padding: 20px 20px 22px;
-    }
-    .produto-nome {
-      font-family: var(--font-head);
-      font-size: 1rem;
-      font-weight: 600;
-      color: var(--blue-dark);
-      margin-bottom: 6px;
-      letter-spacing: 0.01em;
-    }
-    .produto-desc {
-      font-size: 0.83rem;
-      color: var(--gray-400);
-      line-height: 1.65;
-      margin-bottom: 14px;
-    }
-    .produto-badge {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      padding: 3px 10px;
-      border-radius: 3px;
-    }
-    .badge-orange {
-      background: var(--orange-light);
-      color: var(--orange-dark);
-      border: 1px solid rgba(232,117,10,0.25);
-    }
-    .badge-blue {
-      background: var(--blue-pale);
-      color: var(--blue);
-      border: 1px solid rgba(30,77,140,0.2);
-    }
-
-    /* ─── SOBRE / DIFERENCIAIS ─────────── */
-    #diferenciais {
-      padding: 80px 0;
-      background: var(--gray-50);
-      border-top: var(--border);
-      border-bottom: var(--border);
-    }
-    .sobre-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
-      align-items: start;
-    }
-    .sobre-img-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      grid-template-rows: 180px 140px;
-      gap: 8px;
-    }
-    .sobre-img {
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--gray-200);
-    }
-    .sobre-img.span2 { grid-column: span 2; }
-    .sobre-img img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-    .sobre-img-ph {
-      width: 100%; height: 100%;
-      display: flex; align-items: center; justify-content: center;
-      color: var(--gray-400); font-size: 0.75rem; text-align: center; padding: 12px;
-      flex-direction: column; gap: 6px;
-    }
-    .sobre-img-ph svg { opacity: 0.25; }
-    .diferenciais-list {
-      display: flex;
-      flex-direction: column;
-      gap: 24px;
-      margin-top: 32px;
-    }
-    .diferencial-item {
-      display: flex;
-      gap: 14px;
-      align-items: flex-start;
-    }
-    .diferencial-icon {
-      width: 40px;
-      height: 40px;
-      flex-shrink: 0;
-      border-radius: 8px;
-      background: var(--blue-pale);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .diferencial-icon svg { color: var(--blue); }
-    .diferencial-titulo {
-      font-weight: 700;
-      font-size: 0.9rem;
-      color: var(--gray-800);
-      margin-bottom: 3px;
-    }
-    .diferencial-texto {
-      font-size: 0.83rem;
-      color: var(--gray-400);
-      line-height: 1.65;
-    }
-
-    /* ─── GALERIA ────────────────────────── */
-    #galeria {
-      padding: 80px 0;
-      background: var(--white);
-    }
-    .galeria-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      grid-template-rows: 220px 180px;
-      gap: 8px;
-    }
-    .galeria-item {
-      border-radius: var(--radius);
-      overflow: hidden;
-      background: var(--gray-100);
-      position: relative;
-    }
-    .galeria-item.destaque {
-      grid-column: span 2;
-      grid-row: span 2;
-    }
-    .galeria-item img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s;
-    }
-    .galeria-item:hover img { transform: scale(1.03); }
-    .galeria-ph {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      color: var(--gray-400);
-      font-size: 0.75rem;
-      text-align: center;
-      padding: 12px;
-      background: var(--gray-100);
-    }
-    .galeria-ph svg { opacity: 0.25; }
-    .galeria-caption {
-      margin-top: 14px;
-      font-size: 0.78rem;
-      color: var(--gray-400);
-    }
-
-    /* ─── NORMAS ─────────────────────────── */
-    #normas {
-      padding: 80px 0;
-      background: var(--blue-dark);
-    }
-    #normas .section-label { color: rgba(255,255,255,0.55); }
-    #normas .section-label::before { background: rgba(255,255,255,0.3); }
-    #normas .section-title { color: #fff; }
-    #normas .section-desc { color: rgba(255,255,255,0.6); }
-    .normas-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-top: 40px;
-    }
-    .norma-card {
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: var(--radius);
-      padding: 22px 20px;
-    }
-    .norma-code {
-      font-family: var(--font-head);
-      font-size: 0.95rem;
-      font-weight: 700;
-      color: var(--orange);
-      margin-bottom: 8px;
-      letter-spacing: 0.04em;
-    }
-    .norma-titulo {
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: #fff;
-      margin-bottom: 6px;
-    }
-    .norma-texto {
-      font-size: 0.78rem;
-      color: rgba(255,255,255,0.55);
-      line-height: 1.6;
-    }
-
-    /* ─── DEPOIMENTOS ────────────────────── */
-    #depoimentos {
-      padding: 80px 0;
-      background: var(--gray-50);
-      border-top: var(--border);
-    }
-    .depoimentos-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-    .depo-card {
-      background: var(--white);
-      border: var(--border);
-      border-radius: var(--radius);
-      padding: 26px;
-      box-shadow: var(--shadow-sm);
-    }
-    .depo-stars {
-      display: flex;
-      gap: 2px;
-      margin-bottom: 14px;
-    }
-    .star { color: var(--orange); font-size: 0.85rem; }
-    .depo-texto {
-      font-size: 0.87rem;
-      color: var(--gray-600);
-      line-height: 1.7;
-      margin-bottom: 18px;
-      font-style: italic;
-    }
-    .depo-autor {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding-top: 16px;
-      border-top: var(--border);
-    }
-    .depo-avatar {
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: var(--blue-pale);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-head);
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: var(--blue);
-      flex-shrink: 0;
-    }
-    .depo-nome {
-      font-weight: 700;
-      font-size: 0.85rem;
-      color: var(--gray-800);
-    }
-    .depo-cargo {
-      font-size: 0.75rem;
-      color: var(--gray-400);
-    }
-
-    /* ─── LOCALIZAÇÃO ────────────────────── */
-    #localizacao {
-      padding: 80px 0;
-      background: var(--white);
-      border-top: var(--border);
-    }
-    .loc-layout {
-      display: grid;
-      grid-template-columns: 340px 1fr;
-      gap: 48px;
-      align-items: start;
-    }
-    .loc-info {}
-    .loc-bloco {
+      box-shadow: var(--sh3);
       margin-bottom: 24px;
-      padding-bottom: 24px;
-      border-bottom: var(--border);
-    }
-    .loc-bloco:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
-    .loc-label {
-      font-size: 0.68rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--orange);
-      margin-bottom: 6px;
-    }
-    .loc-text {
-      font-size: 0.88rem;
-      color: var(--gray-600);
-      line-height: 1.65;
-    }
-    .loc-text strong { color: var(--gray-800); font-weight: 600; }
-    .loc-link {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      color: var(--blue);
-      font-weight: 600;
-      font-size: 0.83rem;
-      margin-top: 10px;
-      transition: color 0.15s;
-    }
-    .loc-link:hover { color: var(--blue-dark); }
-    .horario-grid {
-      display: grid;
-      grid-template-columns: auto 1fr;
-      gap: 4px 16px;
-      font-size: 0.85rem;
-    }
-    .horario-dia { color: var(--gray-400); }
-    .horario-hora { color: var(--gray-800); font-weight: 600; }
-    .btn-como-chegar {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: var(--blue);
-      color: #fff;
-      border-radius: var(--radius);
-      padding: 10px 20px;
-      font-weight: 600;
-      font-size: 0.83rem;
-      margin-top: 14px;
-      transition: background 0.18s, transform 0.12s;
-    }
-    .btn-como-chegar:hover { background: var(--blue-dark); transform: translateY(-1px); }
-    .mapa-wrapper {
-      border-radius: var(--radius);
-      overflow: hidden;
-      border: var(--border);
-      height: 420px;
-      background: var(--gray-100);
-      box-shadow: var(--shadow-md);
-    }
-    .mapa-wrapper iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-
-    /* ─── CTA / CONTATO ──────────────────── */
-    #contato {
-      padding: 72px 0;
-      background: var(--blue-mid);
-    }
-    #contato .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    .cta-text h2 {
-      font-family: var(--font-head);
-      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
-      font-weight: 700;
-      color: #fff;
-      margin-bottom: 8px;
-      letter-spacing: 0.01em;
-    }
-    .cta-text p {
-      color: rgba(255,255,255,0.65);
-      font-size: 0.88rem;
-      max-width: 420px;
-      line-height: 1.7;
-    }
-    .cta-actions { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
-    .btn-wpp {
-      background: #25D366;
-      color: #fff;
-      border-radius: var(--radius);
-      padding: 12px 24px;
-      font-weight: 700;
-      font-size: 0.875rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.18s, transform 0.12s;
-    }
-    .btn-wpp:hover { background: #1AAE54; transform: translateY(-1px); }
-    .btn-tel {
-      background: rgba(255,255,255,0.12);
-      border: 1px solid rgba(255,255,255,0.25);
-      color: #fff;
-      border-radius: var(--radius);
-      padding: 12px 24px;
-      font-weight: 600;
-      font-size: 0.875rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      transition: background 0.18s, transform 0.12s;
-    }
-    .btn-tel:hover { background: rgba(255,255,255,0.2); transform: translateY(-1px); }
-
-    /* ─── FOOTER ─────────────────────────── */
-    footer {
       background: var(--blue-dark);
-      padding: 40px 0;
-      border-top: 1px solid rgba(255,255,255,0.06);
+      min-height: 360px;
     }
-    footer .container {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .footer-logo img {
-      height: 44px;
-      width: auto;
-      opacity: 0.9;
-    }
-    .footer-links {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-    .footer-links a {
-      color: rgba(255,255,255,0.4);
-      font-size: 0.78rem;
-      font-weight: 500;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      transition: color 0.15s;
-    }
-    .footer-links a:hover { color: rgba(255,255,255,0.85); }
-    .footer-copy {
-      font-size: 0.75rem;
-      color: rgba(255,255,255,0.25);
-      text-align: right;
-    }
+    .mv-hero-img { position: relative; overflow: hidden; }
+    .mv-hero-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s ease; }
+    .mv-hero-card:hover .mv-hero-img img { transform: scale(1.05); }
+    .mv-hero-img::after { content:''; position: absolute; inset: 0; background: linear-gradient(90deg, transparent 60%, rgba(13,27,46,.6) 100%); }
+    .mv-hero-body { padding: 44px 40px; display: flex; flex-direction: column; justify-content: center; gap: 16px; }
+    .mv-hero-tag { display: inline-flex; align-items: center; gap: 7px; background: rgba(232,117,10,.18); border: 1px solid rgba(232,117,10,.4); color: #F5A050; font-size: .68rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; padding: 4px 11px; border-radius: 3px; align-self: flex-start; }
+    .mv-hero-nome { font-family: var(--fh); font-size: clamp(1.4rem,2.5vw,2rem); font-weight: 700; color: #fff; line-height: 1.1; }
+    .mv-hero-desc { color: rgba(255,255,255,.68); font-size: .88rem; line-height: 1.7; }
+    .mv-specs { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.18); color: rgba(255,255,255,.8); font-size: .68rem; font-weight: 600; letter-spacing: .06em; padding: 3px 10px; border-radius: 3px; }
+    .mv-hero-cta { display: inline-flex; align-items: center; gap: 7px; background: var(--orange); color: #fff; border-radius: var(--r-sm); padding: 12px 24px; font-weight: 700; font-size: .875rem; align-self: flex-start; transition: background .18s, transform .12s; margin-top: 4px; }
+    .mv-hero-cta:hover { background: var(--orange-dark); transform: translateY(-1px); }
 
-    /* ─── RESPONSIVE ─────────────────────── */
-    @media (max-width: 960px) {
-      .hero .container { grid-template-columns: 1fr; gap: 40px; }
-      .hero-visual { display: none; }
-      .hero-stats { grid-template-columns: repeat(2, 1fr); }
-      .produtos-grid { grid-template-columns: 1fr 1fr; }
-      .sobre-layout { grid-template-columns: 1fr; gap: 40px; }
-      .sobre-img-grid { order: -1; }
-      .normas-grid { grid-template-columns: 1fr 1fr; }
-      .depoimentos-grid { grid-template-columns: 1fr; }
+    .mv-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .mv-card { border-radius: var(--r); overflow: hidden; background: #fff; box-shadow: var(--sh2); display: flex; flex-direction: column; }
+    .mv-card-img { position: relative; height: 230px; overflow: hidden; background: var(--gray-200); flex-shrink: 0; }
+    .mv-card-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .55s ease; }
+    .mv-card:hover .mv-card-img img { transform: scale(1.08); }
+    .mv-card-img-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 45%, rgba(13,27,46,.72) 100%); pointer-events: none; }
+    .mv-card-img-name { position: absolute; bottom: 14px; left: 16px; font-family: var(--fh); font-size: 1.05rem; font-weight: 700; color: #fff; text-shadow: 0 1px 6px rgba(0,0,0,.5); line-height: 1.15; }
+    .mv-card-tag { position: absolute; top: 12px; left: 12px; font-size: .63rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 4px 10px; border-radius: 3px; }
+    .tag-orange { background: var(--orange); color: #fff; }
+    .tag-blue   { background: var(--blue);   color: #fff; }
+    .mv-card-body { padding: 18px 20px 22px; display: flex; flex-direction: column; flex: 1; }
+    .mv-card-desc { font-size: .83rem; color: var(--gray-400); line-height: 1.65; margin-bottom: 14px; flex: 1; }
+    .mv-card-specs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; }
+    .chip-b { background: var(--blue-pale); color: var(--blue); border: 1px solid rgba(30,77,140,.15); font-size: .67rem; font-weight: 600; letter-spacing: .06em; padding: 3px 9px; border-radius: 3px; }
+    .mv-card-cta { display: inline-flex; align-items: center; gap: 6px; background: var(--blue-dark); color: #fff; border-radius: var(--r-sm); padding: 10px 16px; font-weight: 700; font-size: .78rem; align-self: flex-start; transition: background .18s, transform .12s; }
+    .mv-card:hover .mv-card-cta { background: var(--orange); transform: translateY(-1px); }
+
+    /* ── LINHA COMPLETA / PRODUTOS ─────── */
+    #produtos { padding: 80px 0; background: #fff; }
+    .prod-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .prod-card { border: var(--border); border-radius: var(--r); overflow: hidden; background: #fff; box-shadow: var(--sh1); transition: box-shadow .25s, transform .25s; }
+    .prod-card:hover { box-shadow: var(--sh3); transform: translateY(-4px); }
+    .prod-img { width: 100%; height: 195px; overflow: hidden; background: var(--gray-100); position: relative; }
+    .prod-img img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+    .prod-card:hover .prod-img img { transform: scale(1.09); }
+    .prod-img-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, transparent 45%, rgba(13,27,46,.65) 100%); opacity: 0; transition: opacity .3s; display: flex; align-items: flex-end; padding: 12px 14px; }
+    .prod-card:hover .prod-img-overlay { opacity: 1; }
+    .prod-img-overlay span { color: #fff; font-size: .7rem; font-weight: 600; letter-spacing: .07em; text-transform: uppercase; }
+    .prod-body { padding: 18px 20px 20px; }
+    .prod-nome { font-family: var(--fh); font-size: .98rem; font-weight: 600; color: var(--blue-dark); margin-bottom: 6px; }
+    .prod-desc { font-size: .82rem; color: var(--gray-400); line-height: 1.65; margin-bottom: 14px; }
+    .prod-foot { display: flex; align-items: center; justify-content: space-between; }
+    .badge { display: inline-block; font-size: .65rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 9px; border-radius: 3px; }
+    .b-or { background: var(--orange-lt); color: var(--orange-dark); border: 1px solid rgba(232,117,10,.25); }
+    .b-bl { background: var(--blue-pale);  color: var(--blue);         border: 1px solid rgba(30,77,140,.2); }
+    .prod-link { font-size: .77rem; font-weight: 700; color: var(--blue); display: inline-flex; align-items: center; gap: 4px; transition: color .15s; }
+    .prod-link:hover { color: var(--orange); }
+
+    /* ── BANNER CTA ───────────────────── */
+    .banner { background: var(--blue); padding: 50px 0; }
+    .banner .container { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+    .banner-txt h3 { font-family: var(--fh); font-size: clamp(1.15rem,2.5vw,1.65rem); font-weight: 700; color: #fff; margin-bottom: 6px; }
+    .banner-txt p  { color: rgba(255,255,255,.62); font-size: .88rem; max-width: 380px; }
+    .banner-btns   { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+    .btn-wpp  { background: #25D366; color: #fff; border-radius: var(--r-sm); padding: 11px 22px; font-weight: 700; font-size: .875rem; display: inline-flex; align-items: center; gap: 7px; transition: background .18s, transform .12s; }
+    .btn-wpp:hover  { background: #1AAE54; transform: translateY(-1px); }
+    .btn-gw   { border: 1.5px solid rgba(255,255,255,.4); color: rgba(255,255,255,.9); border-radius: var(--r-sm); padding: 10px 20px; font-weight: 600; font-size: .875rem; transition: border-color .18s, background .18s; display: inline-block; }
+    .btn-gw:hover   { border-color: #fff; background: rgba(255,255,255,.1); }
+
+    /* ── DIFERENCIAIS ─────────────────── */
+    #diferenciais { padding: 80px 0; background: var(--gray-50); border-top: var(--border); border-bottom: var(--border); }
+    .sobre-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .sobre-imgs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 180px 138px; gap: 8px; }
+    .si { border-radius: var(--r-sm); overflow: hidden; background: var(--gray-200); }
+    .si.s2 { grid-column: span 2; }
+    .si img { width: 100%; height: 100%; object-fit: cover; }
+    .dif-list { display: flex; flex-direction: column; gap: 22px; margin-top: 30px; }
+    .dif-item { display: flex; gap: 14px; align-items: flex-start; }
+    .dif-ico { width: 38px; height: 38px; flex-shrink: 0; border-radius: 8px; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; }
+    .dif-ico svg { color: var(--blue); }
+    .dif-t { font-weight: 700; font-size: .88rem; color: var(--gray-800); margin-bottom: 3px; }
+    .dif-d { font-size: .82rem; color: var(--gray-400); line-height: 1.65; }
+
+    /* ── GALERIA ──────────────────────── */
+    #galeria { padding: 80px 0; background: #fff; }
+    .gal-grid { display: grid; grid-template-columns: repeat(4,1fr); grid-template-rows: 220px 180px; gap: 8px; }
+    .gal-item { border-radius: var(--r-sm); overflow: hidden; background: var(--gray-100); }
+    .gal-item.big { grid-column: span 2; grid-row: span 2; }
+    .gal-item img { width: 100%; height: 100%; object-fit: cover; transition: transform .45s ease; }
+    .gal-item:hover img { transform: scale(1.06); }
+
+    /* ── NORMAS ───────────────────────── */
+    #normas { padding: 80px 0; background: var(--blue-dark); }
+    #normas .slabel { color: rgba(255,255,255,.5); }
+    #normas .slabel::before { background: rgba(255,255,255,.3); }
+    #normas .stitle { color: #fff; }
+    #normas .sdesc  { color: rgba(255,255,255,.58); }
+    .nor-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; margin-top: 38px; }
+    .nor-card { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1); border-radius: var(--r-sm); padding: 22px 18px; }
+    .nor-code { font-family: var(--fh); font-size: .92rem; font-weight: 700; color: var(--orange); margin-bottom: 7px; }
+    .nor-titulo { font-weight: 700; font-size: .83rem; color: #fff; margin-bottom: 5px; }
+    .nor-txt { font-size: .77rem; color: rgba(255,255,255,.52); line-height: 1.6; }
+
+    /* ── DEPOIMENTOS ──────────────────── */
+    #depoimentos { padding: 80px 0; background: var(--gray-50); border-top: var(--border); }
+    .dep-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .dep-card { background: #fff; border: var(--border); border-radius: var(--r); padding: 24px; box-shadow: var(--sh1); }
+    .dep-stars { display: flex; gap: 2px; margin-bottom: 12px; }
+    .star { color: var(--orange); font-size: .82rem; }
+    .dep-txt { font-size: .86rem; color: var(--gray-600); line-height: 1.7; margin-bottom: 16px; font-style: italic; }
+    .dep-autor { display: flex; align-items: center; gap: 11px; padding-top: 14px; border-top: var(--border); }
+    .dep-av { width: 36px; height: 36px; border-radius: 50%; background: var(--blue-pale); display: flex; align-items: center; justify-content: center; font-family: var(--fh); font-weight: 700; font-size: .82rem; color: var(--blue); flex-shrink: 0; }
+    .dep-nome { font-weight: 700; font-size: .83rem; color: var(--gray-800); }
+    .dep-cargo { font-size: .73rem; color: var(--gray-400); }
+
+    /* ── LOCALIZAÇÃO ──────────────────── */
+    #localizacao { padding: 80px 0; background: #fff; border-top: var(--border); }
+    .loc-layout { display: grid; grid-template-columns: 320px 1fr; gap: 44px; align-items: start; }
+    .loc-bloco { margin-bottom: 22px; padding-bottom: 22px; border-bottom: var(--border); }
+    .loc-bloco:last-child { border: none; margin: 0; padding: 0; }
+    .loc-lbl { font-size: .66rem; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--orange); margin-bottom: 6px; }
+    .loc-txt { font-size: .87rem; color: var(--gray-600); line-height: 1.65; }
+    .loc-txt strong { color: var(--gray-800); font-weight: 600; }
+    .hor-grid { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: .84rem; }
+    .hor-d { color: var(--gray-400); }
+    .hor-h { color: var(--gray-800); font-weight: 600; }
+    .btn-chegar { display: inline-flex; align-items: center; gap: 7px; background: var(--blue); color: #fff; border-radius: var(--r-sm); padding: 10px 18px; font-weight: 600; font-size: .82rem; margin-top: 12px; transition: background .18s, transform .12s; }
+    .btn-chegar:hover { background: var(--blue-dark); transform: translateY(-1px); }
+    .mapa { border-radius: var(--r); overflow: hidden; border: var(--border); height: 420px; box-shadow: var(--sh2); }
+    .mapa iframe { width: 100%; height: 100%; border: none; display: block; }
+
+    /* ── CTA FINAL ────────────────────── */
+    #contato { padding: 68px 0; background: var(--blue-mid); }
+    #contato .container { display: flex; align-items: center; justify-content: space-between; gap: 36px; flex-wrap: wrap; }
+    .cta-txt h2 { font-family: var(--fh); font-size: clamp(1.25rem,2.5vw,1.75rem); font-weight: 700; color: #fff; margin-bottom: 7px; }
+    .cta-txt p  { color: rgba(255,255,255,.62); font-size: .87rem; max-width: 400px; line-height: 1.7; }
+    .cta-btns { display: flex; gap: 12px; flex-wrap: wrap; flex-shrink: 0; }
+    .btn-wpp-lg { background: #25D366; color: #fff; border-radius: var(--r-sm); padding: 13px 26px; font-weight: 700; font-size: .9rem; display: inline-flex; align-items: center; gap: 8px; transition: background .18s, transform .12s; }
+    .btn-wpp-lg:hover { background: #1AAE54; transform: translateY(-1px); }
+    .btn-tel  { background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.25); color: #fff; border-radius: var(--r-sm); padding: 12px 22px; font-weight: 600; font-size: .9rem; display: inline-flex; align-items: center; gap: 8px; transition: background .18s, transform .12s; }
+    .btn-tel:hover { background: rgba(255,255,255,.18); transform: translateY(-1px); }
+
+    /* ── FOOTER ───────────────────────── */
+    footer { background: var(--blue-dark); padding: 38px 0; border-top: 1px solid rgba(255,255,255,.06); }
+    footer .container { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 18px; }
+    .ft-logo img { height: 42px; width: auto; opacity: .9; }
+    .ft-links { display: flex; gap: 18px; flex-wrap: wrap; }
+    .ft-links a { color: rgba(255,255,255,.38); font-size: .76rem; font-weight: 500; text-transform: uppercase; letter-spacing: .06em; transition: color .15s; }
+    .ft-links a:hover { color: rgba(255,255,255,.85); }
+    .ft-copy { font-size: .73rem; color: rgba(255,255,255,.22); text-align: right; }
+
+    /* ── RESPONSIVE ───────────────────── */
+    @media (max-width: 980px) {
+      .hero .container { grid-template-columns: 1fr; gap: 36px; padding-bottom: 56px; }
+      .hero-imgs { display: none; }
+      .hero-kpis { grid-template-columns: repeat(2,1fr); }
+      .vitrine .container { grid-template-columns: repeat(3,1fr); }
+      .vit-item:nth-child(3) { border-right: none; }
+      .vit-item:nth-child(4), .vit-item:nth-child(5) { border-top: var(--border); }
+      .mv-hero-card { grid-template-columns: 1fr; min-height: auto; }
+      .mv-hero-img { height: 240px; }
+      .mv-grid { grid-template-columns: 1fr 1fr; }
+      .prod-grid { grid-template-columns: 1fr 1fr; }
+      .sobre-layout { grid-template-columns: 1fr; gap: 36px; }
+      .nor-grid { grid-template-columns: 1fr 1fr; }
+      .dep-grid { grid-template-columns: 1fr; }
       .loc-layout { grid-template-columns: 1fr; }
-      .galeria-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4, 170px); }
-      .galeria-item.destaque { grid-column: span 2; grid-row: span 1; }
+      .gal-grid { grid-template-columns: 1fr 1fr; grid-template-rows: repeat(4,160px); }
+      .gal-item.big { grid-column: span 2; grid-row: span 1; }
       #contato .container { flex-direction: column; align-items: flex-start; }
+      .banner .container { flex-direction: column; align-items: flex-start; }
       .nav-links { display: none; }
-      .nav-hamburger { display: flex; }
+      .nav-burger { display: flex; }
     }
     @media (max-width: 560px) {
-      .produtos-grid { grid-template-columns: 1fr; }
-      .normas-grid { grid-template-columns: 1fr; }
-      .hero-stats { grid-template-columns: repeat(2, 1fr); }
+      .vitrine .container { grid-template-columns: repeat(2,1fr); }
+      .vit-item:nth-child(5) { display: none; }
+      .vit-item:nth-child(2) { border-right: none; }
+      .mv-grid { grid-template-columns: 1fr; }
+      .prod-grid { grid-template-columns: 1fr; }
+      .nor-grid { grid-template-columns: 1fr; }
       footer .container { flex-direction: column; align-items: flex-start; }
-      .footer-copy { text-align: left; }
+      .ft-copy { text-align: left; }
     }
   </style>
 </head>
@@ -897,17 +328,17 @@
 <!-- TOPBAR -->
 <div class="topbar">
   <div class="container">
-    <div class="topbar-left">
-      <span class="topbar-icon">
+    <div class="tb-left">
+      <span class="tb-item">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
         <a href="tel:41996817294">(41) 99681-7294</a>
       </span>
-      <span class="topbar-icon">
+      <span class="tb-item">
         <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
         Rua Ayrton Senna da Silva, 3223 – MD01 · Paranaguá, PR
       </span>
     </div>
-    <div class="topbar-right">
+    <div class="tb-right">
       <a href="mailto:contato@jlfcintas.com.br">contato@jlfcintas.com.br</a>
     </div>
   </div>
@@ -916,156 +347,292 @@
 <!-- NAVBAR -->
 <nav class="navbar">
   <div class="container">
-    <a href="#" class="nav-logo-wrap">
-      <!-- Logo JLF: coloque o arquivo jlf.jpeg na mesma pasta do index.html -->
-      <img src="jlf.jpeg" alt="JLF Cintas" class="nav-logo-img" />
-    </a>
+    <a href="#" class="nav-logo"><img src="jlf.jpeg" alt="JLF Cintas" /></a>
     <ul class="nav-links">
+      <li><a href="#mais-vendidos">Mais Vendidos</a></li>
       <li><a href="#produtos">Produtos</a></li>
       <li><a href="#diferenciais">Sobre</a></li>
       <li><a href="#galeria">Galeria</a></li>
-      <li><a href="#normas">Normas</a></li>
       <li><a href="#localizacao">Localização</a></li>
       <li><a href="#contato" class="nav-cta">Solicitar orçamento</a></li>
     </ul>
-    <button class="nav-hamburger" onclick="toggleMenu()" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
+    <button class="nav-burger" onclick="toggleMenu()" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
-  <div class="mobile-menu" id="mobileMenu">
-    <a href="#produtos" onclick="closeMenu()">Produtos</a>
-    <a href="#diferenciais" onclick="closeMenu()">Sobre</a>
-    <a href="#galeria" onclick="closeMenu()">Galeria</a>
-    <a href="#normas" onclick="closeMenu()">Normas</a>
-    <a href="#localizacao" onclick="closeMenu()">Localização</a>
+  <div class="mob-menu" id="mobMenu">
+    <a href="#mais-vendidos" onclick="closeMenu()">Mais Vendidos</a>
+    <a href="#produtos"      onclick="closeMenu()">Produtos</a>
+    <a href="#diferenciais"  onclick="closeMenu()">Sobre</a>
+    <a href="#galeria"       onclick="closeMenu()">Galeria</a>
+    <a href="#localizacao"   onclick="closeMenu()">Localização</a>
     <a href="#contato" class="nav-cta" onclick="closeMenu()">Solicitar orçamento</a>
   </div>
 </nav>
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-bg-pattern"></div>
-  <div class="hero-blue-glow"></div>
+  <div class="hero-bar"></div>
   <div class="container">
-    <div class="hero-content">
+    <div>
       <div class="hero-tag">Amarração · Elevação · Movimentação de Cargas</div>
-      <h1>Equipamentos que<br><strong>não deixam a carga na mão</strong></h1>
-      <p class="hero-desc">A JLF Cintas fornece cintas de amarração, cabos de elevação, correntes e acessórios para transporte rodoviário e movimentação industrial. Produto certificado, entrega rápida, suporte real.</p>
-      <div class="hero-actions">
+      <h1>Cintas, Cabos e Correntes<br>para <strong>quem não pode errar</strong></h1>
+      <p class="hero-desc">A JLF Cintas fornece equipamentos certificados para amarração e elevação de cargas — para transportadores, portuários e indústrias em Paranaguá e todo o Paraná.</p>
+      <div class="hero-btns">
         <a href="#contato" class="btn-orange">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
+          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.42 2 2 0 0 1 3.6 1.26h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.06 6.06l.97-.97a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.73 16.92z"/></svg>
           Solicitar orçamento
         </a>
-        <a href="#produtos" class="btn-outline-white">Ver produtos</a>
+        <a href="#mais-vendidos" class="btn-ghost-w">Ver produtos</a>
       </div>
-      <div class="hero-stats">
-        <div class="hero-stat">
-          <div class="hero-stat-num">12+</div>
-          <div class="hero-stat-label">Anos de mercado</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">5 mil</div>
-          <div class="hero-stat-label">Clientes atendidos</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">ABNT</div>
-          <div class="hero-stat-label">Produtos certificados</div>
-        </div>
-        <div class="hero-stat">
-          <div class="hero-stat-num">PR</div>
-          <div class="hero-stat-label">Entrega regional</div>
-        </div>
+      <div class="hero-kpis">
+        <div class="hero-kpi"><div class="hero-kpi-n">12+</div><div class="hero-kpi-l">Anos de mercado</div></div>
+        <div class="hero-kpi"><div class="hero-kpi-n">5 mil</div><div class="hero-kpi-l">Clientes atendidos</div></div>
+        <div class="hero-kpi"><div class="hero-kpi-n">ABNT</div><div class="hero-kpi-l">Certificado</div></div>
+        <div class="hero-kpi"><div class="hero-kpi-n">PR</div><div class="hero-kpi-l">Entrega regional</div></div>
       </div>
     </div>
 
-    <div class="hero-visual">
-      <div class="hero-img span2">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=75&fit=crop" alt="Cintas de amarração para transporte de carga" />
+    <div class="hero-imgs">
+      <div class="hi s2">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=1000&q=80&fit=crop" alt="Estoque de equipamentos JLF Cintas" />
       </div>
-      <div class="hero-img">
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Elevação industrial de carga" />
+      <div class="hi">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=75&fit=crop" alt="Cintas de amarração" />
       </div>
-      <div class="hero-img">
-        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=75&fit=crop" alt="Movimentação logística de carga" />
+      <div class="hi">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=75&fit=crop" alt="Movimentação de carga" />
       </div>
     </div>
   </div>
 </section>
 
-<!-- PRODUTOS -->
+<!-- VITRINE DE CATEGORIAS -->
+<div class="vitrine">
+  <div class="container">
+    <a href="#mais-vendidos" class="vit-item">
+      <div class="vit-thumb"><img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=200&q=80&fit=crop" alt="Cintas de Amarração" /></div>
+      <span class="vit-label">Cintas de Amarração</span>
+    </a>
+    <a href="#mais-vendidos" class="vit-item">
+      <div class="vit-thumb"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=200&q=80&fit=crop" alt="Cintas de Elevação" /></div>
+      <span class="vit-label">Cintas de Elevação</span>
+    </a>
+    <a href="#mais-vendidos" class="vit-item">
+      <div class="vit-thumb"><img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=200&q=80&fit=crop" alt="Cabos de Aço" /></div>
+      <span class="vit-label">Cabos de Aço</span>
+    </a>
+    <a href="#mais-vendidos" class="vit-item">
+      <div class="vit-thumb"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=200&q=80&fit=crop" alt="Correntes" /></div>
+      <span class="vit-label">Correntes Gr. 70/80</span>
+    </a>
+    <a href="#produtos" class="vit-item">
+      <div class="vit-thumb"><img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=200&q=80&fit=crop" alt="Ganchos e Acessórios" /></div>
+      <span class="vit-label">Ganchos & Acessórios</span>
+    </a>
+  </div>
+</div>
+
+<!-- MAIS VENDIDOS -->
+<section id="mais-vendidos">
+  <div class="container">
+    <div class="sh-row">
+      <div>
+        <p class="slabel">Os mais procurados</p>
+        <h2 class="stitle">Produtos Mais Vendidos</h2>
+      </div>
+      <a href="#produtos" class="btn-outline-b">Ver linha completa →</a>
+    </div>
+
+    <!-- Card destaque — Cinta com Catraca -->
+    <div class="mv-hero-card">
+      <div class="mv-hero-img">
+        <img
+          src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=85&fit=crop"
+          alt="Cinta de amarração com catraca para caminhão"
+        />
+      </div>
+      <div class="mv-hero-body">
+        <span class="mv-hero-tag">⭐ N.º 1 em vendas</span>
+        <p class="mv-hero-nome">Cinta de Amarração<br>com Catraca</p>
+        <p class="mv-hero-desc">Fita de poliéster de alta tenacidade com catraca em aço temperado. A escolha certa para transporte rodoviário de carga geral, madeira e maquinário. Disponível em múltiplas capacidades, com certificação ABNT inclusa.</p>
+        <div class="mv-specs">
+          <span class="chip">2,5t · 5t · 10t</span>
+          <span class="chip">ABNT NBR 15637</span>
+          <span class="chip">Estoque disponível</span>
+          <span class="chip">Entrega no mesmo dia</span>
+        </div>
+        <a href="#contato" class="mv-hero-cta">
+          Solicitar orçamento
+          <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Grid 3 cards -->
+    <div class="mv-grid">
+
+      <div class="mv-card">
+        <div class="mv-card-img">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=700&q=85&fit=crop" alt="Cinta de elevação para içamento de cargas" />
+          <div class="mv-card-img-overlay"></div>
+          <span class="mv-card-tag tag-blue">Içamento</span>
+          <div class="mv-card-img-name">Cinta de Elevação<br>(Leg)</div>
+        </div>
+        <div class="mv-card-body">
+          <p class="mv-card-desc">Cintas planas e redondas para içamento industrial. Fator de segurança 4:1 e 7:1, conformes ABNT NBR 15637-1 e 15637-2. Para 1 e 2 pernas.</p>
+          <div class="mv-card-specs">
+            <span class="chip-b">Plana · Redonda</span>
+            <span class="chip-b">FS 4:1 e 7:1</span>
+          </div>
+          <a href="#contato" class="mv-card-cta">
+            Solicitar orçamento
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="mv-card">
+        <div class="mv-card-img">
+          <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=700&q=85&fit=crop" alt="Cabo de aço para elevação e movimentação industrial" />
+          <div class="mv-card-img-overlay"></div>
+          <span class="mv-card-tag tag-blue">Alta resistência</span>
+          <div class="mv-card-img-name">Cabo de Aço<br>& Eslingas</div>
+        </div>
+        <div class="mv-card-body">
+          <p class="mv-card-desc">Configurações 6x7, 6x19 e 6x36, com opção inox. Para içamento, guincho e fixação industrial. Por metro ou em eslingas prontas com terminal.</p>
+          <div class="mv-card-specs">
+            <span class="chip-b">6x19 · 6x36</span>
+            <span class="chip-b">Inox disponível</span>
+          </div>
+          <a href="#contato" class="mv-card-cta">
+            Solicitar orçamento
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="mv-card">
+        <div class="mv-card-img">
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=700&q=85&fit=crop" alt="Corrente de amarração grau 70 para transporte pesado" />
+          <div class="mv-card-img-overlay"></div>
+          <span class="mv-card-tag tag-orange">Industrial</span>
+          <div class="mv-card-img-name">Correntes<br>Grau 70 / 80</div>
+        </div>
+        <div class="mv-card-body">
+          <p class="mv-card-desc">Aço forjado galvanizado para cargas pesadas e irregulares. Capacidade até 20 t, certificação por lote e documentação disponível para fiscalização.</p>
+          <div class="mv-card-specs">
+            <span class="chip-b">Até 20t</span>
+            <span class="chip-b">Cert. por lote</span>
+          </div>
+          <a href="#contato" class="mv-card-cta">
+            Solicitar orçamento
+            <svg width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- LINHA COMPLETA -->
 <section id="produtos">
   <div class="container">
-    <div class="section-header">
-      <p class="section-label">Linha completa</p>
-      <h2 class="section-title">Produtos para amarração e elevação</h2>
-      <p class="section-desc">Do rodoviário ao industrial, temos os equipamentos certos para cada tipo de operação — com qualidade certificada e estoque pronto para envio.</p>
+    <div class="sh-row">
+      <div>
+        <p class="slabel">Linha completa</p>
+        <h2 class="stitle">Todos os Produtos</h2>
+      </div>
     </div>
 
-    <div class="produtos-grid">
+    <div class="prod-grid">
 
-      <div class="produto-card">
-        <div class="produto-img">
-          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=75&fit=crop" alt="Cinta de amarração com catraca" />
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=640&q=80&fit=crop" alt="Cinta de amarração com catraca" />
+          <div class="prod-img-overlay"><span>Pedir orçamento →</span></div>
         </div>
-        <div class="produto-body">
-          <p class="produto-nome">Cinta de Amarração com Catraca</p>
-          <p class="produto-desc">Fita de poliéster de alta tenacidade com catraca de aço. Resistência de 2,5 a 10 t. Indicada para transporte rodoviário de carga geral, madeira e equipamentos.</p>
-          <span class="produto-badge badge-orange">Mais vendida</span>
+        <div class="prod-body">
+          <p class="prod-nome">Cinta de Amarração com Catraca</p>
+          <p class="prod-desc">Fita de poliéster com catraca de aço. 2,5 a 10 t. Para transporte rodoviário de carga geral, madeira e equipamentos.</p>
+          <div class="prod-foot">
+            <span class="badge b-or">Mais vendida</span>
+            <a href="#contato" class="prod-link">Orçamento <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
         </div>
       </div>
 
-      <div class="produto-card">
-        <div class="produto-img">
-          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=75&fit=crop" alt="Cinta de elevação de cargas" />
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=640&q=80&fit=crop" alt="Cinta de elevação leg" />
+          <div class="prod-img-overlay"><span>Pedir orçamento →</span></div>
         </div>
-        <div class="produto-body">
-          <p class="produto-nome">Cinta de Elevação (Leg)</p>
-          <p class="produto-desc">Cintas planas e redondas para içamento. Fator de segurança 4:1 e 7:1. Conformidade com ABNT NBR 15637-1 e NBR 15637-2. Para 1 e 2 pernas.</p>
-          <span class="produto-badge badge-blue">ABNT NBR 15637</span>
-        </div>
-      </div>
-
-      <div class="produto-card">
-        <div class="produto-img">
-          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=600&q=75&fit=crop" alt="Corrente de amarração grau 70" />
-        </div>
-        <div class="produto-body">
-          <p class="produto-nome">Corrente de Amarração Grau 70/80</p>
-          <p class="produto-desc">Aço forjado galvanizado. Indicada para cargas pesadas, irregulares e maquinário agrícola e industrial. Capacidade até 20 t com certificação de lote.</p>
-          <span class="produto-badge badge-blue">Grau 70 · Grau 80</span>
+        <div class="prod-body">
+          <p class="prod-nome">Cinta de Elevação (Leg)</p>
+          <p class="prod-desc">Cintas planas e redondas para içamento. Fator de segurança 4:1 e 7:1. Conformes ABNT NBR 15637-1 e 15637-2.</p>
+          <div class="prod-foot">
+            <span class="badge b-bl">ABNT NBR 15637</span>
+            <a href="#contato" class="prod-link">Orçamento <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
         </div>
       </div>
 
-      <div class="produto-card">
-        <div class="produto-img">
-          <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=600&q=75&fit=crop" alt="Cabo de aço para elevação" />
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=640&q=80&fit=crop" alt="Corrente de amarração grau 70" />
+          <div class="prod-img-overlay"><span>Pedir orçamento →</span></div>
         </div>
-        <div class="produto-body">
-          <p class="produto-nome">Cabo de Aço</p>
-          <p class="produto-desc">Configurações 6x7, 6x19, 6x36 e inox. Para içamento, guincho e amarração industrial. Com e sem revestimento plástico. Vendido por metro ou em eslingas prontas.</p>
-          <span class="produto-badge badge-blue">Inox disponível</span>
-        </div>
-      </div>
-
-      <div class="produto-card">
-        <div class="produto-img">
-          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=600&q=75&fit=crop" alt="Ganchos e acessórios industriais" />
-        </div>
-        <div class="produto-body">
-          <p class="produto-nome">Ganchos e Acessórios Grau 8</p>
-          <p class="produto-desc">Ganchos clévis, olhal e giratório com e sem trava automática. Elos de ligação, anelões e encurtadores. Aço forjado, grau 8, com certificação individual.</p>
-          <span class="produto-badge badge-orange">Grau 8 certificado</span>
+        <div class="prod-body">
+          <p class="prod-nome">Corrente Grau 70 / 80</p>
+          <p class="prod-desc">Aço forjado galvanizado para cargas pesadas e irregulares. Capacidade até 20 t com certificação de lote inclusa.</p>
+          <div class="prod-foot">
+            <span class="badge b-bl">Grau 70 · Grau 80</span>
+            <a href="#contato" class="prod-link">Orçamento <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
         </div>
       </div>
 
-      <div class="produto-card">
-        <div class="produto-img">
-          <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=600&q=75&fit=crop" alt="Protetor de quina e acessórios para cinta" />
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=640&q=80&fit=crop" alt="Cabo de aço industrial" />
+          <div class="prod-img-overlay"><span>Pedir orçamento →</span></div>
         </div>
-        <div class="produto-body">
-          <p class="produto-nome">Protetores e Kits Completos</p>
-          <p class="produto-desc">Protetores de quina em plástico e couro, flat hooks, ganchos J e kits montados por tipo de carga. Montamos o kit certo para cada operação — é só consultar.</p>
-          <span class="produto-badge badge-orange">Sob consulta</span>
+        <div class="prod-body">
+          <p class="prod-nome">Cabo de Aço</p>
+          <p class="prod-desc">Configurações 6x7, 6x19 e 6x36, com opção inox. Para içamento, guincho e fixação industrial. Por metro ou em eslingas prontas.</p>
+          <div class="prod-foot">
+            <span class="badge b-bl">Inox disponível</span>
+            <a href="#contato" class="prod-link">Orçamento <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1565193566173-7a0ee3dbe261?w=640&q=80&fit=crop" alt="Ganchos e acessórios grau 8" />
+          <div class="prod-img-overlay"><span>Pedir orçamento →</span></div>
+        </div>
+        <div class="prod-body">
+          <p class="prod-nome">Ganchos e Acessórios Grau 8</p>
+          <p class="prod-desc">Ganchos clévis, olhal e giratório com e sem trava. Elos de ligação, anelões e encurtadores. Aço forjado grau 8 com certificação individual.</p>
+          <div class="prod-foot">
+            <span class="badge b-or">Grau 8 certif.</span>
+            <a href="#contato" class="prod-link">Orçamento <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
+        </div>
+      </div>
+
+      <div class="prod-card">
+        <div class="prod-img">
+          <img src="https://images.unsplash.com/photo-1553413077-190dd305871c?w=640&q=80&fit=crop" alt="Protetores de quina e kits completos" />
+          <div class="prod-img-overlay"><span>Pedir orçamento →</span></div>
+        </div>
+        <div class="prod-body">
+          <p class="prod-nome">Protetores e Kits Completos</p>
+          <p class="prod-desc">Protetores de quina em plástico e couro, flat hooks, ganchos J e kits montados por tipo de carga. Montamos o kit certo para a sua operação.</p>
+          <div class="prod-foot">
+            <span class="badge b-or">Sob consulta</span>
+            <a href="#contato" class="prod-link">Orçamento <svg width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+          </div>
         </div>
       </div>
 
@@ -1073,70 +640,83 @@
   </div>
 </section>
 
-<!-- SOBRE / DIFERENCIAIS -->
+<!-- BANNER CTA -->
+<div class="banner">
+  <div class="container">
+    <div class="banner-txt">
+      <h3>Orçamento rápido para a sua frota ou operação?</h3>
+      <p>Respondemos em minutos pelo WhatsApp. Condições especiais para compras em volume e contratos mensais.</p>
+    </div>
+    <div class="banner-btns">
+      <a href="https://wa.me/5541996817294?text=Olá!%20Gostaria%20de%20um%20orçamento." class="btn-wpp" target="_blank" rel="noopener">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
+        WhatsApp agora
+      </a>
+      <a href="tel:41996817294" class="btn-gw">(41) 99681-7294</a>
+    </div>
+  </div>
+</div>
+
+<!-- DIFERENCIAIS -->
 <section id="diferenciais">
   <div class="container">
     <div class="sobre-layout">
-
-      <div class="sobre-img-grid">
-        <div class="sobre-img span2">
-          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=75&fit=crop" alt="Loja JLF Cintas - estoque de produtos" />
+      <div class="sobre-imgs">
+        <div class="si s2">
+          <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=900&q=80&fit=crop" alt="Loja JLF Cintas em Paranaguá" />
         </div>
-        <div class="sobre-img">
-          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Equipe JLF Cintas atendendo cliente" />
+        <div class="si">
+          <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Equipamentos de elevação" />
         </div>
-        <div class="sobre-img">
-          <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=75&fit=crop" alt="Produtos para movimentação de carga" />
+        <div class="si">
+          <img src="https://images.unsplash.com/photo-1578575437130-527eed3abbec?w=500&q=75&fit=crop" alt="Movimentação industrial de carga" />
         </div>
       </div>
-
       <div>
-        <div class="section-header">
-          <p class="section-label">Por que a JLF</p>
-          <h2 class="section-title">Mais de uma década no setor de amarração e elevação</h2>
-          <p class="section-desc">A JLF Cintas nasceu em Paranaguá, coração do porto do Paraná, com foco em atender transportadores, operadores portuários e indústrias que não podem errar na hora de movimentar carga.</p>
+        <div class="sh">
+          <p class="slabel">Por que a JLF</p>
+          <h2 class="stitle">Nascemos no polo logístico do Paraná</h2>
+          <p class="sdesc">Sediados em Paranaguá — próximos ao maior porto graneleiro da América Latina — atendemos transportadores, operadores portuários e indústrias que não podem errar na hora de movimentar carga.</p>
         </div>
-
-        <div class="diferenciais-list">
-          <div class="diferencial-item">
-            <div class="diferencial-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+        <div class="dif-list">
+          <div class="dif-item">
+            <div class="dif-ico">
+              <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
             </div>
             <div>
-              <p class="diferencial-titulo">Produto certificado conforme ABNT</p>
-              <p class="diferencial-texto">Toda a linha segue a NBR 15637. Você tem documentação em mãos na hora de apresentar para a fiscalização — sem risco de retenção de veículo ou embargo de carga.</p>
+              <p class="dif-t">Certificação ABNT — documentação inclusa</p>
+              <p class="dif-d">Toda a linha segue a NBR 15637. Você tem a documentação na mão para apresentar na fiscalização sem risco de multa ou embargo de carga.</p>
             </div>
           </div>
-          <div class="diferencial-item">
-            <div class="diferencial-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+          <div class="dif-item">
+            <div class="dif-ico">
+              <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
             </div>
             <div>
-              <p class="diferencial-titulo">Estoque disponível, saída no mesmo dia</p>
-              <p class="diferencial-texto">Pedidos confirmados até as 14h saem no mesmo dia. Trabalhamos com transportadoras regionais e nacionais, com rastreamento em todos os envios.</p>
+              <p class="dif-t">Estoque físico — saída no mesmo dia</p>
+              <p class="dif-d">Pedidos até 14h saem no mesmo dia. Transportadoras regionais e nacionais com rastreamento em todos os envios.</p>
             </div>
           </div>
-          <div class="diferencial-item">
-            <div class="diferencial-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="dif-item">
+            <div class="dif-ico">
+              <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>
             </div>
             <div>
-              <p class="diferencial-titulo">Atendimento técnico sem enrolação</p>
-              <p class="diferencial-texto">Nossa equipe indica o produto certo para cada tipo de carga. Não vendemos o que não serve — isso evita acidentes, multas e retrabalho na operação.</p>
+              <p class="dif-t">Orientação técnica direta</p>
+              <p class="dif-d">Nossa equipe indica o produto certo para cada tipo de carga. Não vendemos o que não serve — isso evita acidentes, multas e retrabalho na operação.</p>
             </div>
           </div>
-          <div class="diferencial-item">
-            <div class="diferencial-icon">
-              <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <div class="dif-item">
+            <div class="dif-ico">
+              <svg width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
             <div>
-              <p class="diferencial-titulo">Preço de distribuidor para qualquer volume</p>
-              <p class="diferencial-texto">Compramos direto dos fabricantes. Condições especiais para frota, cooperativa e compras recorrentes. Faturamento mensal disponível para PJ com cadastro aprovado.</p>
+              <p class="dif-t">Preço de distribuidor para qualquer volume</p>
+              <p class="dif-d">Direto dos fabricantes. Condições especiais para frota, cooperativa e contratos mensais. Faturamento para PJ com cadastro aprovado.</p>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -1144,72 +724,60 @@
 <!-- GALERIA -->
 <section id="galeria">
   <div class="container">
-    <div class="section-header">
-      <p class="section-label">Galeria</p>
-      <h2 class="section-title">Nossa loja e produtos</h2>
-      <p class="section-desc">Veja de perto os equipamentos que fornecemos e o espaço onde atendemos nossos clientes em Paranaguá.</p>
+    <div class="sh">
+      <p class="slabel">Galeria</p>
+      <h2 class="stitle">Nossa loja e produtos</h2>
+      <p class="sdesc">Veja de perto os equipamentos que fornecemos e o espaço onde atendemos em Paranaguá.</p>
     </div>
-
-    <div class="galeria-grid">
-
-      <!-- Foto destaque: substitua src pela sua foto real -->
-      <div class="galeria-item destaque">
-        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=900&q=80&fit=crop" alt="Interior da loja JLF Cintas" />
-        <!-- Para usar sua foto: <img src="fotos/loja-principal.jpg" alt="Loja JLF Cintas"> -->
+    <div class="gal-grid">
+      <div class="gal-item big">
+        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=1000&q=85&fit=crop" alt="Estoque de cintas JLF" />
       </div>
-
-      <div class="galeria-item">
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=75&fit=crop" alt="Cintas de elevação em estoque" />
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=500&q=80&fit=crop" alt="Cintas de elevação" />
       </div>
-
-      <div class="galeria-item">
-        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=75&fit=crop" alt="Correntes e acessórios" />
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=500&q=80&fit=crop" alt="Correntes de amarração" />
       </div>
-
-      <div class="galeria-item">
-        <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=500&q=75&fit=crop" alt="Cabos de aço e eslingas" />
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=500&q=80&fit=crop" alt="Cabos de aço" />
       </div>
-
-      <div class="galeria-item">
-        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=500&q=75&fit=crop" alt="Estoque de produtos JLF" />
+      <div class="gal-item">
+        <img src="https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=500&q=80&fit=crop" alt="Loja JLF Cintas" />
       </div>
-
     </div>
-
-    <p class="galeria-caption">
-      Para substituir pelas fotos reais da loja: salve as imagens na pasta <strong>fotos/</strong> e troque o atributo <code>src</code> de cada <code>&lt;img&gt;</code> acima.
-    </p>
+    <p style="margin-top:13px;font-size:.75rem;color:var(--gray-400);">Para suas fotos reais: salve em <strong>fotos/</strong> e substitua o <code>src</code> de cada <code>&lt;img&gt;</code> acima.</p>
   </div>
 </section>
 
 <!-- NORMAS -->
 <section id="normas">
   <div class="container">
-    <div class="section-header">
-      <p class="section-label">Conformidade legal</p>
-      <h2 class="section-title">Segurança e conformidade com a legislação</h2>
-      <p class="section-desc">A fiscalização nas estradas e nos ambientes industriais tem se intensificado. Usar equipamentos sem certificação pode resultar em multa, interdição ou, pior, em acidente.</p>
+    <div class="sh">
+      <p class="slabel">Conformidade legal</p>
+      <h2 class="stitle">Segurança dentro da lei</h2>
+      <p class="sdesc">A fiscalização nas estradas e em ambientes industriais tem se intensificado. Usar equipamentos sem certificação pode resultar em multa, interdição ou acidente.</p>
     </div>
-    <div class="normas-grid">
-      <div class="norma-card">
-        <p class="norma-code">ABNT NBR 15637</p>
-        <p class="norma-titulo">Cintas Têxteis de Amarração</p>
-        <p class="norma-texto">Define resistência mínima, ensaios e marcação obrigatória para cintas de poliéster usadas em transporte rodoviário de carga.</p>
+    <div class="nor-grid">
+      <div class="nor-card">
+        <p class="nor-code">ABNT NBR 15637</p>
+        <p class="nor-titulo">Cintas Têxteis de Amarração</p>
+        <p class="nor-txt">Define resistência mínima, ensaios e marcação obrigatória para cintas de poliéster em transporte rodoviário.</p>
       </div>
-      <div class="norma-card">
-        <p class="norma-code">CTB Art. 230</p>
-        <p class="norma-titulo">Código de Trânsito</p>
-        <p class="norma-texto">Exige amarração adequada da carga. Infração grave com multa, retenção do veículo e responsabilização do motorista e do embarcador.</p>
+      <div class="nor-card">
+        <p class="nor-code">CTB Art. 230</p>
+        <p class="nor-titulo">Código de Trânsito</p>
+        <p class="nor-txt">Exige amarração adequada da carga. Infração grave com multa, retenção do veículo e responsabilização do motorista e embarcador.</p>
       </div>
-      <div class="norma-card">
-        <p class="norma-code">NR-11</p>
-        <p class="norma-titulo">Transporte e Movimentação</p>
-        <p class="norma-texto">Norma regulamentadora do MTE para operações de transporte, movimentação, armazenagem e manuseio de materiais em ambientes de trabalho.</p>
+      <div class="nor-card">
+        <p class="nor-code">NR-11</p>
+        <p class="nor-titulo">Movimentação de Materiais</p>
+        <p class="nor-txt">Norma do MTE para transporte, movimentação e manuseio de materiais em ambientes de trabalho. Exige equipamentos certificados.</p>
       </div>
-      <div class="norma-card">
-        <p class="norma-code">EN 12195</p>
-        <p class="norma-titulo">Norma Europeia</p>
-        <p class="norma-texto">Padrão europeu aceito em operações de exportação. Nossos kits premium atendem simultaneamente à norma europeia e às normas brasileiras vigentes.</p>
+      <div class="nor-card">
+        <p class="nor-code">EN 12195</p>
+        <p class="nor-titulo">Norma Europeia</p>
+        <p class="nor-txt">Para exportações e clientes que exigem rastreabilidade internacional. Nossos kits atendem simultaneamente às normas europeia e brasileira.</p>
       </div>
     </div>
   </div>
@@ -1218,43 +786,25 @@
 <!-- DEPOIMENTOS -->
 <section id="depoimentos">
   <div class="container">
-    <div class="section-header">
-      <p class="section-label">Clientes</p>
-      <h2 class="section-title">Quem usa a JLF recomenda</h2>
+    <div class="sh">
+      <p class="slabel">Clientes</p>
+      <h2 class="stitle">Quem usa a JLF recomenda</h2>
     </div>
-    <div class="depoimentos-grid">
-      <div class="depo-card">
-        <div class="depo-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="depo-texto">"Compro aqui há quatro anos para toda a minha frota. O produto é sempre dentro do padrão, nunca tive problema em fiscalização e o pessoal me orienta na montagem dos kits."</p>
-        <div class="depo-autor">
-          <div class="depo-avatar">RS</div>
-          <div>
-            <p class="depo-nome">Roberto Silva</p>
-            <p class="depo-cargo">Transportador autônomo — Curitiba, PR</p>
-          </div>
-        </div>
+    <div class="dep-grid">
+      <div class="dep-card">
+        <div class="dep-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="dep-txt">"Compro aqui há quatro anos para toda a minha frota. O produto é sempre dentro do padrão e nunca tive problema em fiscalização. O pessoal me orienta na montagem dos kits."</p>
+        <div class="dep-autor"><div class="dep-av">RS</div><div><p class="dep-nome">Roberto Silva</p><p class="dep-cargo">Transportador autônomo — Curitiba, PR</p></div></div>
       </div>
-      <div class="depo-card">
-        <div class="depo-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="depo-texto">"Precisei de cintas grau 70 pra movimentação de máquinas agrícolas em urgência. Tinham em estoque, saíram no mesmo dia. Atendimento direto, sem enrolação."</p>
-        <div class="depo-autor">
-          <div class="depo-avatar">MC</div>
-          <div>
-            <p class="depo-nome">Marcos Cardoso</p>
-            <p class="depo-cargo">Proprietário de frota — Cascavel, PR</p>
-          </div>
-        </div>
+      <div class="dep-card">
+        <div class="dep-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="dep-txt">"Precisei de correntes grau 70 para movimentação de máquinas agrícolas em urgência. Tinham em estoque e saíram no mesmo dia. Atendimento direto, sem enrolação."</p>
+        <div class="dep-autor"><div class="dep-av">MC</div><div><p class="dep-nome">Marcos Cardoso</p><p class="dep-cargo">Proprietário de frota — Cascavel, PR</p></div></div>
       </div>
-      <div class="depo-card">
-        <div class="depo-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
-        <p class="depo-texto">"Fechamos contrato de fornecimento mensal para a nossa cooperativa. O preço por volume ficou bem abaixo do que a gente pagava no mercado. Recomendo sem hesitar."</p>
-        <div class="depo-autor">
-          <div class="depo-avatar">JF</div>
-          <div>
-            <p class="depo-nome">José Ferreira</p>
-            <p class="depo-cargo">Gerente logístico — Londrina, PR</p>
-          </div>
-        </div>
+      <div class="dep-card">
+        <div class="dep-stars"><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span><span class="star">★</span></div>
+        <p class="dep-txt">"Fechamos contrato de fornecimento mensal para a cooperativa. O preço por volume ficou bem abaixo do que a gente pagava antes. Recomendo sem hesitar."</p>
+        <div class="dep-autor"><div class="dep-av">JF</div><div><p class="dep-nome">José Ferreira</p><p class="dep-cargo">Gerente logístico — Londrina, PR</p></div></div>
       </div>
     </div>
   </div>
@@ -1263,77 +813,58 @@
 <!-- LOCALIZAÇÃO -->
 <section id="localizacao">
   <div class="container">
-    <div class="section-header">
-      <p class="section-label">Nossa localização</p>
-      <h2 class="section-title">Venha nos visitar em Paranaguá</h2>
-      <p class="section-desc">Atendemos presencialmente de segunda a sábado com estoque físico disponível para visualização e retirada no ato.</p>
+    <div class="sh">
+      <p class="slabel">Nossa localização</p>
+      <h2 class="stitle">Venha nos visitar em Paranaguá</h2>
+      <p class="sdesc">Atendemos presencialmente de segunda a sábado com estoque físico disponível para visualização e retirada no ato.</p>
     </div>
-
     <div class="loc-layout">
-      <div class="loc-info">
-
+      <div>
         <div class="loc-bloco">
-          <p class="loc-label">Endereço</p>
-          <p class="loc-text">
-            <strong>Rua Ayrton Senna da Silva, 3223 – MD01</strong><br>
-            Paranaguá — PR<br>
-            CEP 83.200-000
-          </p>
-          <a class="btn-como-chegar" href="https://maps.google.com/?q=Rua+Ayrton+Senna+da+Silva,+3223,+Paranaguá,+PR" target="_blank" rel="noopener">
-            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <p class="loc-lbl">Endereço</p>
+          <p class="loc-txt"><strong>Rua Ayrton Senna da Silva, 3223 – MD01</strong><br>Paranaguá — PR · CEP 83.200-000</p>
+          <a class="btn-chegar" href="https://maps.google.com/?q=Rua+Ayrton+Senna+da+Silva,+3223,+Paranaguá,+PR" target="_blank" rel="noopener">
+            <svg width="13" height="13" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
             Como chegar
           </a>
         </div>
-
         <div class="loc-bloco">
-          <p class="loc-label">Horário de atendimento</p>
-          <div class="horario-grid">
-            <span class="horario-dia">Segunda a sexta</span>
-            <span class="horario-hora">08h às 18h</span>
-            <span class="horario-dia">Sábado</span>
-            <span class="horario-hora">08h às 12h</span>
-            <span class="horario-dia">Domingo</span>
-            <span class="horario-hora">Fechado</span>
+          <p class="loc-lbl">Horário</p>
+          <div class="hor-grid">
+            <span class="hor-d">Seg a sexta</span><span class="hor-h">08h às 18h</span>
+            <span class="hor-d">Sábado</span><span class="hor-h">08h às 12h</span>
+            <span class="hor-d">Domingo</span><span class="hor-h">Fechado</span>
           </div>
         </div>
-
         <div class="loc-bloco">
-          <p class="loc-label">Fale com a gente</p>
-          <p class="loc-text">
+          <p class="loc-lbl">Contato</p>
+          <p class="loc-txt">
             <a href="tel:41996817294" style="color:var(--orange);font-weight:700;">(41) 99681-7294</a><br>
-            <a href="https://wa.me/5541996817294" target="_blank" style="color:var(--gray-600);">WhatsApp disponível</a><br>
-            <a href="mailto:contato@jlfcintas.com.br" style="color:var(--gray-600);">contato@jlfcintas.com.br</a>
+            <a href="https://wa.me/5541996817294" target="_blank" style="color:var(--gray-600);">WhatsApp</a> ·
+            <a href="mailto:contato@jlfcintas.com.br" style="color:var(--gray-600);">E-mail</a>
           </p>
         </div>
-
       </div>
-
-      <!-- MAPA GOOGLE MAPS -->
-      <div class="mapa-wrapper">
-        <!--
-          COMO ATUALIZAR O MAPA:
-          1. Acesse https://maps.google.com
-          2. Pesquise: "Rua Ayrton Senna da Silva, 3223, Paranaguá PR"
-          3. Clique em "Compartilhar" → "Incorporar um mapa"
-          4. Copie o <iframe> gerado e substitua o de baixo
-        -->
+      <div class="mapa">
         <iframe
-          <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3600.226729976384!2d-48.53144612482494!3d-25.530823477497627!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94db9a92a703cfc3%3A0xd85ed4dff2cda023!2sAv.%20Ayrton%20Senna%20da%20Silva%2C%203223%20-%20Dom%20Pedro%20II%2C%20Paranagu%C3%A1%20-%20PR%2C%2083203-800!5e0!3m2!1spt-BR!2sbr!4v1780149171639!5m2!1spt-BR!2sbr" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14477.07!2d-48.52!3d-25.52!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94deb1c9b42f2b4d%3A0x92a7d8e4c3baf02!2sParanagu%C3%A1%2C%20PR!5e0!3m2!1spt-BR!2sbr!4v1700000000000"
+          allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          title="JLF Cintas — Paranaguá PR">
         </iframe>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA / CONTATO -->
+<!-- CTA FINAL -->
 <section id="contato">
   <div class="container">
-    <div class="cta-text">
+    <div class="cta-txt">
       <h2>Precisa de cintas ou equipamentos de elevação?</h2>
-      <p>Manda uma mensagem pelo WhatsApp ou liga agora. Passamos orçamento em minutos — sem formulário, sem fila, sem enrolação.</p>
+      <p>Manda uma mensagem pelo WhatsApp ou liga agora. Orçamento em minutos — sem formulário, sem fila, sem enrolação.</p>
     </div>
-    <div class="cta-actions">
-      <a href="https://wa.me/5541996817294?text=Olá!%20Gostaria%20de%20um%20orçamento%20de%20cintas." class="btn-wpp" target="_blank" rel="noopener">
+    <div class="cta-btns">
+      <a href="https://wa.me/5541996817294?text=Olá!%20Gostaria%20de%20um%20orçamento%20de%20cintas." class="btn-wpp-lg" target="_blank" rel="noopener">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413z"/></svg>
         WhatsApp
       </a>
@@ -1348,36 +879,28 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    <div class="footer-logo">
-      <img src="jlf.jpeg" alt="JLF Cintas" />
-    </div>
-    <ul class="footer-links">
+    <div class="ft-logo"><img src="jlf.jpeg" alt="JLF Cintas" /></div>
+    <ul class="ft-links">
+      <li><a href="#mais-vendidos">Mais Vendidos</a></li>
       <li><a href="#produtos">Produtos</a></li>
       <li><a href="#diferenciais">Sobre</a></li>
       <li><a href="#galeria">Galeria</a></li>
-      <li><a href="#normas">Normas</a></li>
       <li><a href="#localizacao">Localização</a></li>
       <li><a href="#contato">Contato</a></li>
     </ul>
-    <div class="footer-copy">
+    <div class="ft-copy">
       © 2025 JLF Cintas. Todos os direitos reservados.<br>
-      <span style="font-size:0.7rem; color:rgba(255,255,255,0.15);">Rua Ayrton Senna da Silva, 3223 · Paranaguá, PR</span>
+      <span style="font-size:.68rem;color:rgba(255,255,255,.14);">Rua Ayrton Senna da Silva, 3223 · Paranaguá, PR</span>
     </div>
   </div>
 </footer>
 
 <script>
-  function toggleMenu() {
-    document.getElementById('mobileMenu').classList.toggle('open');
-  }
-  function closeMenu() {
-    document.getElementById('mobileMenu').classList.remove('open');
-  }
+  function toggleMenu() { document.getElementById('mobMenu').classList.toggle('open'); }
+  function closeMenu()  { document.getElementById('mobMenu').classList.remove('open'); }
   document.addEventListener('click', function(e) {
-    var nav = document.querySelector('.navbar');
-    if (!nav.contains(e.target)) closeMenu();
+    if (!document.querySelector('.navbar').contains(e.target)) closeMenu();
   });
 </script>
-
 </body>
 </html>
